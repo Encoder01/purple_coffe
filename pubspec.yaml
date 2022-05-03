@@ -38,7 +38,7 @@ dependencies:
   get_it: ^7.2.0
   hive: ^2.1.0
   flutter_bloc: ^8.0.1
-  flutter_screenutil: ^5.4.0+1
+  flutter_screenutil: ^5.5.1
   #FRONT_END_TOOLS
   cupertino_icons: ^1.0.4
   ionicons: ^0.1.2
@@ -46,6 +46,7 @@ dependencies:
   dartz: ^0.10.1
   data_connection_checker: ^0.3.4
   firebase_core: ^1.15.0
+  cloud_firestore: ^3.1.13
   firebase_auth: ^3.3.16
   google_sign_in: ^5.3.0
 dev_dependencies:
