@@ -45,9 +45,9 @@ dependencies:
   #BACK_END_TOOLS
   dartz: ^0.10.1
   data_connection_checker: ^0.3.4
-  firebase_core: ^1.15.0
-  cloud_firestore: ^3.1.13
-  firebase_auth: ^3.3.16
+  firebase_core: ^1.16.0
+  cloud_firestore: ^3.1.14
+  firebase_auth: ^3.3.17
   google_sign_in: ^5.3.0
 dev_dependencies:
   flutter_test:

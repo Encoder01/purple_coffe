@@ -21,7 +21,7 @@ class _StartupScreenState extends State<StartupScreen> {
           if (state is ErrorLoggedState) {
             return LoginPage();
           } else if (state is LoginAuthenticated) {
-            return   const DashBoard();
+            return DashBoard();
           }  else {
             return LoginPage();
           }
