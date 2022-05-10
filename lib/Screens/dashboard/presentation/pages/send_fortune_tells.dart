@@ -6,16 +6,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/entities/UserModel.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/add_fortune_usecase.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/add_user_usecase.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/widgets/colored_container.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/widgets/colored_text.dart';
-import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'dart:async';
+import '../../../../core/params/add_fortune_params.dart';
 import '../../../../injection_container.dart';
 import '../../../login/presentation/manager/login_bloc.dart';
+import '../../domain/entities/FortuneModel.dart';
 
 class SendFortuneTells extends StatefulWidget {
+  final String userId;
+  SendFortuneTells(this.userId);
   @override
   State<SendFortuneTells> createState() => _SendFortuneTellsState();
 }
@@ -37,8 +41,7 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
       Uint8List asByte = await pickedFile!.readAsBytes();
       final memoryImage = MemoryImage(asByte);
       return memoryImage;
-    } catch (e) {
-    }
+    } catch (e) {}
     return null;
   }
 
@@ -126,8 +129,7 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
           const SizedBox(),
           Image.asset("assets/logo/title_tr.png"),
           const ColoredText(
-            data:
-                "Take a picture of the inside of your cup from four angles, "
+            data: "Take a picture of the inside of your cup from four angles, "
                 "as indicated in the photos, "
                 "by turning your cup counterclockwise.",
           ),
@@ -287,22 +289,22 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
           ),
           TextButton(
             onPressed: () {
-              /*addFortuneUseCase.call(
+              addFortuneUseCase.call(
                 AddFortuneParams(
-                  addFortune: AddFortuneModel(
-                    userId: widget.appUserModel.uid,
+                  addFortune: FortuneModel(
+                    userId: widget.userId,
                     flatCup: [base64Encode(inFlat.first.bytes)],
                     inCup: [base64Encode(inCup.first.bytes)],
+                    fortune_quest: const {
+                      "answer":"",
+                      "quest":""
+                    },
+                    createDate: DateTime.now(),
+                    fortuneComment: "null",
+                    isDone: false,
                   ),
                 ),
-              );*/
-             /* Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        MyFortuneTells(fortuneIds: ["RB0zYK7XvevsTCLmwJmd"]),
-                  ));*/
-              BlocProvider.of<LoginBloc>(context).add(LoggedOut());
+              );
             },
             child: const ColoredText(
               data: "Coffee Reading Send",

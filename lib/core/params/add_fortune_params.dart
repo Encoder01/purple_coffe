@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/entities/AddFortuneModel.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/entities/FortuneModel.dart';
 
 class AddFortuneParams extends Equatable {
-  final AddFortuneModel addFortune;
+  final FortuneModel addFortune;
 
   const AddFortuneParams({
     required this.addFortune,

@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:purple_coffe/Screens/dashboard/data/models/fortune_tells.dart';
+import 'package:purple_coffe/Screens/login/data/models/user.dart';
 
 import 'dashboard_firestore_datasource.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,12 +11,8 @@ class DashboardFirestoreDatasourceImplementation
   final docUser = FirebaseFirestore.instance.collection("users");
 
   @override
-  Future<void> addUser(String adSoyad, String dateTime, String userId) async {
-    await docUser.doc(userId).set({
-      "ad_soyad": adSoyad,
-      "d.tarihi": dateTime,
-      "fallari": ["asfasf"],
-    });
+  Future<void> addUser(AppUserModel userModel) async {
+    await docUser.doc(userModel.uid).set(userModel.toJson());
     throw UnimplementedError();
   }
 
@@ -33,25 +28,29 @@ class DashboardFirestoreDatasourceImplementation
   }
 
   @override
-  Future<void> addFortuneTell(
-      String userId, List<String> flatCup, List<String> inCup) async {
-    await docFal.add({
-      "user_id": userId,
-      "fal_yorumu": "",
-      "flat_cup": flatCup,
-      "in_cup": inCup,
-      "is_done": false,
-    });
+  Future<void> addFortuneTell(FortuneTells fortuneTells) async {
+    await docFal.add(fortuneTells.toJson());
     final doc = await docFal.get();
     final List<String> fDocId = [];
     for (final element in doc.docs) {
+    final fortuneTellsFrom=  FortuneTells.fromJson(element.data());
+    if(fortuneTells.userId==fortuneTellsFrom.userId){
       fDocId.add(element.id);
     }
-    await _fireStore.collection("users").doc(userId).set({
-      "ad_soyad": "adSoyad",
-      "d.tarihi": "dateTime",
-      "fallari": fDocId,
-    });
+    }
+    final userDoc =
+        await _fireStore.collection("users").doc(fortuneTells.userId).get();
+    final userModel = AppUserModel.fromJson(userDoc.data()!);
+    await _fireStore.collection("users").doc(fortuneTells.userId).set(
+          AppUserModel(
+                  uid: userModel.uid,
+                  name: userModel.name,
+                  email: userModel.email,
+                  sex: userModel.sex,
+                  birthDate: userModel.birthDate,
+                  fTellId: fDocId)
+              .toJson(),
+        );
     throw UnimplementedError();
   }
 }

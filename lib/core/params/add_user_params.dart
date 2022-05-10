@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 
-import '../../Screens/dashboard/domain/entities/AddUserModel.dart';
+import '../../Screens/dashboard/domain/entities/UserModel.dart';
 
 class AddUserParams extends Equatable {
-  final AddUserModel addUser;
+  final UserModel addUser;
 
   const AddUserParams({
     required this.addUser,

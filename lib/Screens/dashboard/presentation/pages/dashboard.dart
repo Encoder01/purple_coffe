@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/entities/UserModel.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/my_fortune_tells.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/send_fortune_tells.dart';
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
+
+import '../../../../config/themes/themes.dart';
 
 class DashBoard extends StatefulWidget {
   DashBoard(this.appUserModel);
@@ -34,7 +37,9 @@ class _DashBoardState extends State<DashBoard> {
         ),
         child: Stack(
           children: <Widget>[
-            Offstage(offstage: _selectedIndex != 0, child: SendFortuneTells()),
+            Offstage(
+                offstage: _selectedIndex != 0,
+                child: SendFortuneTells(widget.appUserModel.uid!)),
             Offstage(
               offstage: _selectedIndex != 1,
               child: MyFortuneTells(fortuneIds: widget.appUserModel.fTellId!),
@@ -47,21 +52,21 @@ class _DashBoardState extends State<DashBoard> {
         elevation: 0,
         showUnselectedLabels: false,
         showSelectedLabels: false,
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, color: Themes.mainColor),
             label: "",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Ionicons.chatbox_ellipses),
+            icon: Icon(Ionicons.chatbox_ellipses, color: Themes.mainColor),
             label: "",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person, color: Themes.mainColor),
             label: "",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings, color: Themes.mainColor),
             label: "",
           ),
         ],
