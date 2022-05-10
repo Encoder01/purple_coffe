@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -5,45 +6,99 @@ import '../../domain/entities/LoginModel.dart';
 import '../models/user.dart';
 import 'authentication_datasource.dart';
 
-class IAuthenticationDatasourceImplementation implements IAuthenticationDatasource {
+class IAuthenticationDatasourceImplementation
+    implements IAuthenticationDatasource {
   final _firebaseAuth = FirebaseAuth.instance;
+  final docUser = FirebaseFirestore.instance.collection("users");
 
-  @override
-  Future<AppUserModel> signIn(LoginModel login) async {
+  /* @override
+  Future<AppUserModel> signInWithEmailPassword(LoginModel login) async {
     try {
-      final result = await _firebaseAuth.signInWithEmailAndPassword(
-        email: login.username,
-        password: login.password,
-      );
-      //todo veritabaınından uid ile çekilecek user.
+      UserCredential user = await _firebaseAuth.signInWithEmailLink(
+          email: login.email, emailLink: login.emailLink!);
+      final userModel = await docUser.doc(user.user!.uid).get();
       return AppUserModel(
-        uid: result.user!.uid,
-        name: result.user!.displayName ?? "null",
+        uid: user.user!.uid,
+        name: userModel.data()!["ad_soyad"] as String,
         lastName: "",
         birthDate: DateTime.now(),
-        fTellId: const [],
+        fTellId: userModel.data()!["fallari"] as List<String>,
       );
     } catch (e) {
+      throw Exception(e.toString());
+    }
+  }*/
+
+  /* @override
+  Future<void> createUserEmailPassword(LoginModel login) async {
+    try {
+      await _firebaseAuth.sendSignInLinkToEmail(
+          email: "jungarkagan@gmail.com",
+          actionCodeSettings: ActionCodeSettings(
+            url: "https://purplecoffe.page.link/mVFa",
+            androidMinimumVersion: "21",
+            handleCodeInApp: true,
+            androidInstallApp: false,
+            androidPackageName: kPackageId,
+          ));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-email') {
+        throw Exception('The email is invalid.');
+      } else {
+        throw Exception(e.code);
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }*/
+  @override
+  Future<AppUserModel> createUserEmailPassword(LoginModel login) async {
+    try {
+      UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: login.email, password: login.password!);
+      await docUser.doc(user.user!.uid).set(
+            AppUserModel(
+              uid: user.user!.uid,
+              name: user.user!.displayName ?? "adsız_kullanıcı",
+              email: user.user!.email ?? login.email,
+              sex: "unknown",
+              birthDate: DateTime.now(),
+              fTellId: [""],
+            ).toJson(),
+          );
+      final userData = await docUser.doc(user.user!.uid).get();
+      return AppUserModel.fromJson(userData.data()!);
+    } catch (e) {
+      print(e);
       throw Exception(e.toString());
     }
   }
 
   @override
-  Future<AppUserModel> checkAuthentication() async {
-    AppUserModel userModel = AppUserModel.empty();
+  Future<AppUserModel> signInWithEmailPassword(LoginModel login) async {
+    try {
+      UserCredential user = await _firebaseAuth.signInWithEmailAndPassword(
+          email: login.email, password: login.password!);
+      final userData = await docUser.doc(user.user!.uid).get();
+      return AppUserModel.fromJson(userData.data()!);
+    } catch (e) {
+      print(e);
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<AppUserModel?> checkAuthentication() async {
     try {
       if (_firebaseAuth.currentUser != null) {
         final User currentUser = _firebaseAuth.currentUser!;
-        userModel = AppUserModel(
-          uid: currentUser.uid,
-          name: currentUser.displayName ?? '',
-          lastName: "",
-          birthDate: DateTime.now(),
-          fTellId: const [""],
-        );
+        final userData = await docUser.doc(currentUser.uid).get();
+        return AppUserModel.fromJson(userData.data()!);
       }
-    } catch (_) {}
-    return userModel;
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+    return null;
   }
 
   @override
@@ -58,42 +113,21 @@ class IAuthenticationDatasourceImplementation implements IAuthenticationDatasour
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-      final result = await _firebaseAuth.signInWithCredential(credential);
-      return AppUserModel(
-        uid: result.user!.uid,
-        name: result.user!.displayName!,
-        lastName: "",
-        birthDate: DateTime.now(),
-        fTellId: const [],
+      final user = await _firebaseAuth.signInWithCredential(credential);
+      await docUser.doc(user.user!.uid).set(
+        AppUserModel(
+          uid: user.user!.uid,
+          name: user.user!.displayName ?? "adsız_kullanıcı",
+          email: user.user!.email!,
+          sex: "unknown",
+          birthDate: DateTime.now(),
+          fTellId: [""],
+        ).toJson(),
       );
+      final userData = await docUser.doc(user.user!.uid).get();
+      return AppUserModel.fromJson(userData.data()!);
     } catch (e) {
-      throw Exception(e.toString());
-    }
-  }
-
-  @override
-  Future<AppUserModel> signUp(LoginModel login) async {
-    try {
-      final result = await _firebaseAuth.createUserWithEmailAndPassword(
-        email: login.username,
-        password: login.password,
-      );
-      return AppUserModel(
-        uid: result.user!.uid,
-        name: result.user!.displayName!,
-        lastName: "",
-        birthDate: DateTime.now(),
-        fTellId: const [],
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw Exception('The account already exists for that email.');
-      } else {
-        throw Exception(e.code);
-      }
-    } catch (e) {
+      print(e.toString());
       throw Exception(e.toString());
     }
   }

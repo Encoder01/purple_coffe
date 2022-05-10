@@ -12,7 +12,7 @@ class Login extends UseCase<AppUserModel, LoginParams> {
 
   @override
   Future<Either<Failure, AppUserModel>> call(LoginParams params) async {
-    return  await loginRepository.signIn(params.login);
+    return  await loginRepository.signInWithEmailPassword(params.login);
   }
 }
 

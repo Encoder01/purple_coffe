@@ -1,9 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/dashboard.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/pages/send_fortune_tells.dart';
+import 'package:purple_coffe/Screens/login/presentation/dto/login_dto.dart';
 import 'package:purple_coffe/Screens/login/presentation/manager/login_bloc.dart';
 import 'package:purple_coffe/Screens/login/presentation/pages/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 
 class StartupScreen extends StatefulWidget {
   const StartupScreen({Key? key}) : super(key: key);
@@ -17,13 +22,15 @@ class _StartupScreenState extends State<StartupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<LoginBloc, LoginState>(
-        builder:(context, state) {
+        builder: (context, state) {
           if (state is ErrorLoggedState) {
-            return LoginPage();
+            return const LoginPage();
           } else if (state is LoginAuthenticated) {
-            return DashBoard();
-          }  else {
-            return LoginPage();
+            return DashBoard(state.appUserModel);
+          } else if (state is LoginLoading) {
+            return Center(child: PlatformCircularProgressIndicator());
+          } else {
+            return const LoginPage();
           }
         },
       ),

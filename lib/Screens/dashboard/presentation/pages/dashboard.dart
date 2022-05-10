@@ -1,40 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/entities/AddUserModel.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/use_cases/add_user_usecase.dart';
-import 'package:purple_coffe/core/params/add_user_params.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/pages/my_fortune_tells.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/pages/send_fortune_tells.dart';
+import 'package:purple_coffe/Screens/login/data/models/user.dart';
 
-import '../../../../injection_container.dart';
+class DashBoard extends StatefulWidget {
+  DashBoard(this.appUserModel);
 
-class DashBoard extends StatelessWidget {
+  AppUserModel appUserModel;
+
+  @override
+  State<DashBoard> createState() => _DashBoardState();
+}
+
+class _DashBoardState extends State<DashBoard> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    AddUserUseCase addUserUseCase=serviceLocator();
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(height: 5,),
-          Text("Mor Fincan"),
-          Text("fotoğrafta belirtildiği gibi fotoları çekin"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(onPressed: () {
-                addUserUseCase.call(
-                    AddUserParams(addUser: AddUserModel(adSoyad: "fasfasf", dateTime: "", userId: "asdasf")));
-              }, icon: Icon(Ionicons.cube)),
-              IconButton(onPressed: () {}, icon: Icon(Ionicons.cube)),
-              IconButton(onPressed: () {}, icon: Icon(Ionicons.cube)),
-              IconButton(onPressed: () {}, icon: Icon(Ionicons.cube))
-            ],
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/arkaplan.png"),
+            fit: BoxFit.fill,
           ),
-          Text("Artık tabak resmi çekebilirsiniz"),
-          IconButton(onPressed: () {}, icon: Icon(Ionicons.cube)),
-          TextButton(onPressed: () {}, child: Text("Gönder"))
+        ),
+        child: Stack(
+          children: <Widget>[
+            Offstage(offstage: _selectedIndex != 0, child: SendFortuneTells()),
+            Offstage(
+              offstage: _selectedIndex != 1,
+              child: MyFortuneTells(fortuneIds: widget.appUserModel.fTellId!),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xFF371c46),
+        elevation: 0,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Ionicons.chatbox_ellipses),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "",
+          ),
         ],
+        currentIndex: _selectedIndex,
+        type: BottomNavigationBarType.fixed,
+        iconSize: 33,
+        onTap: _onItemTapped,
       ),
     );
   }

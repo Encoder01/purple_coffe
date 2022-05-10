@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:purple_coffe/Screens/login/presentation/pages/start_up.dart';
 import 'Screens/login/presentation/manager/login_bloc.dart';
-import 'Screens/login/presentation/pages/login_page.dart';
+import 'config/themes/themes.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -26,11 +26,8 @@ class MyApp extends StatelessWidget {
       )..add(AppStarted()),
       child: MaterialApp(
         title: 'Login Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home:   StartupScreen(),
+        theme: Themes.lightTheme,
+        home:   const StartupScreen(),
       ),
     );
   }

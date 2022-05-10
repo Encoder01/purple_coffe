@@ -1,18 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/repositories/dashobard_firestore_repository.dart';
-import 'package:purple_coffe/core/params/add_user_params.dart';
+import 'package:purple_coffe/core/params/add_fortune_params.dart';
 import 'package:purple_coffe/core/params/no_params.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/usecases/usecases.dart';
 
-class AddUserUseCase extends UseCase<NoParams, AddUserParams> {
+class AddFortuneUseCase extends UseCase<NoParams, AddFortuneParams> {
   final DashboardFirestoreRepository firestoreRepository;
 
-  AddUserUseCase(this.firestoreRepository);
+  AddFortuneUseCase(this.firestoreRepository);
 
   @override
-  Future<Either<Failure, NoParams>> call(AddUserParams params) async {
-    return  await firestoreRepository.addUser(params.addUser);
+  Future<Either<Failure, NoParams>> call(AddFortuneParams params) async {
+    return  await firestoreRepository.addFortuneTell(params.addFortune);
   }
 }
 

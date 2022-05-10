@@ -9,10 +9,34 @@ class AppStarted extends LoginEvent {
   List<Object?> get props => throw UnimplementedError();
 }
 
-class LogInWithCredentials extends LoginEvent {
+class LogInWithEmailLink extends LoginEvent {
   final LoginDTO loginDTO;
 
-  LogInWithCredentials(this.loginDTO);
+  LogInWithEmailLink(this.loginDTO);
+
+  @override
+  List<Object?> get props => throw UnimplementedError();
+}
+class SignUpWithEmailLink extends LoginEvent {
+  final LoginDTO loginDTO;
+
+  SignUpWithEmailLink(this.loginDTO);
+
+  @override
+  List<Object?> get props => throw UnimplementedError();
+}
+class LogInWithEmailPassword extends LoginEvent {
+  final LoginDTO loginDTO;
+
+  LogInWithEmailPassword(this.loginDTO);
+
+  @override
+  List<Object?> get props => throw UnimplementedError();
+}
+class SignUpWithEmailPassword extends LoginEvent {
+  final LoginDTO loginDTO;
+
+  SignUpWithEmailPassword(this.loginDTO);
 
   @override
   List<Object?> get props => throw UnimplementedError();

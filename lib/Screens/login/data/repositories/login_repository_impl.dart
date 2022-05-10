@@ -1,3 +1,5 @@
+import 'package:purple_coffe/core/params/no_params.dart';
+
 import '../../../../core/error/failures.dart';
 import '../../domain/entities/LoginModel.dart';
 import '../../domain/repositories/login_repository.dart';
@@ -11,9 +13,20 @@ class LoginRepositoryImpl extends LoginRepository {
   LoginRepositoryImpl(this._authenticationService);
 
   @override
-  Future<Either<Failure, AppUserModel>> signIn(LoginModel login) async {
+  Future<Either<Failure, AppUserModel>> signInWithEmailLink(LoginModel login) async {
     try {
-      final user = await _authenticationService.signIn(login);
+      final user = await _authenticationService.signInWithEmailPassword(login);
+      print("user logged");
+      return Right(user);
+    } catch (exception) {
+      print(exception.toString());
+      return Left(ServerFailure());
+    }
+  }
+  @override
+  Future<Either<Failure, AppUserModel>> signInWithEmailPassword(LoginModel login) async {
+    try {
+      final user = await _authenticationService.signInWithEmailPassword(login);
       print("user logged");
       return Right(user);
     } catch (exception) {
@@ -25,16 +38,16 @@ class LoginRepositoryImpl extends LoginRepository {
   Future<Either<Failure, AppUserModel>> checkAuthentication() async {
     try {
       final user = await _authenticationService.checkAuthentication();
-      return Right(user);
+      return Right(user!);
     } catch (exception) {
       return Left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Failure, AppUserModel>> signUp(LoginModel login) async {
+  Future<Either<Failure, AppUserModel>> createUserEmailPassword(LoginModel login) async {
     try {
-      final AppUserModel user = await _authenticationService.signUp(login);
+      final user= await _authenticationService.createUserEmailPassword(login);
       return Right(user);
     } catch (exception) {
       return Left(ServerFailure());
@@ -60,4 +73,6 @@ class LoginRepositoryImpl extends LoginRepository {
       return Left(ServerFailure());
     }
   }
+
+
 }

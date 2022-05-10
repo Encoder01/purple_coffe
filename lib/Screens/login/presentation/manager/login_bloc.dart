@@ -7,11 +7,13 @@ import 'package:purple_coffe/Screens/login/domain/use_cases/login_google.dart';
 import 'package:purple_coffe/Screens/login/domain/use_cases/sign_out.dart';
 import 'package:purple_coffe/Screens/login/domain/use_cases/sign_up.dart';
 
+import '../../data/models/user.dart';
 import '../dto/login_dto.dart';
 import '/core/params/login_params.dart';
 import '/core/params/no_params.dart';
 
 part "login_event.dart";
+
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
@@ -34,15 +36,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       result.fold(
         (failure) => emit(ErrorLoggedState()),
         (user) => {
-          emit(LoginAuthenticated()),
+          emit(LoginAuthenticated(user)),
         },
       );
     });
-    on<LogInWithCredentials>((event, emit) async {
+    on<LogInWithEmailPassword>((event, emit) async {
+      emit(LoginLoading());
       final result = await loginUseCase.call(
         LoginParams(
           login: LoginModel(
-            username: event.loginDTO.username,
+            email: event.loginDTO.email,
             password: event.loginDTO.password,
           ),
         ),
@@ -50,20 +53,36 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       result.fold(
         (failure) => emit(ErrorLoggedState()),
         (user) => {
-          emit(LoginAuthenticated()),
+          emit(LoginAuthenticated(user)),
         },
       );
+    });
+    on<SignUpWithEmailPassword>((event, emit) async {
+      print(event.loginDTO.email);
+      final result = await signUpUseCase.call(
+        LoginParams(
+          login: LoginModel(
+            email: event.loginDTO.email,
+            password: event.loginDTO.password,
+          ),
+        ),
+      );
+      result.fold((failure) {
+        emit(ErrorLoggedState());
+      }, (success) {
+        emit(LoginAuthenticated(success));
+      });
     });
 
     on<LogInWithGoogle>((event, emit) async {
       emit(LoginLoading());
       final result = await loginGoogleUseCase.call(NoParams());
-      result.fold((failure) async* {
+      result.fold((failure) {
         print(failure.toString());
         emit(ErrorLoggedState());
-      }, (success) async* {
+      }, (success) {
         print(success.toString());
-        emit(LoginAuthenticated());
+        emit(LoginAuthenticated(success));
       });
     });
 

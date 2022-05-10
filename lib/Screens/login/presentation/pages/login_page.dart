@@ -1,84 +1,169 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import '../../../../injection_container.dart';
+import 'package:purple_coffe/Screens/login/presentation/pages/signup_page.dart';
+import '../../../../config/themes/themes.dart';
 import '../dto/login_dto.dart';
 import '../manager/login_bloc.dart';
+import '../widgets/body_header.dart';
+import '../widgets/text_form.dart';
 
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
-class LoginPage extends StatelessWidget {
-    LoginPage({Key? key}) : super(key: key);
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   late String inputLogin;
-  late String inputPassword;
+  late String inputPass;
+
   @override
   Widget build(BuildContext context) {
-    return _buildForm();
-  }
-    Widget _buildForm() {
-      return Scaffold(
-        body: Form(
-          key: _formKey,
-          autovalidateMode: AutovalidateMode.disabled,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+    return Scaffold(
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/arkaplan.png"),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: SingleChildScrollView(
             child: Column(
-              children: <Widget>[
-                const Placeholder(
-                  fallbackWidth: 150,
-                  fallbackHeight: 100,
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                PlatformTextFormField(
-                  hintText: 'Enter the username',
-                  onChanged: (value) {
-                    inputLogin = value;
-                  },
-                  onSaved: (String? value) {
-                    // This optional block of code can be used to run
-                    // code when the user saves the form.
-                  },
-                  validator: (String? value) {
-                    return value!.isEmpty ? 'Username is mandatory' : null;
-                  },
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                PlatformTextFormField(
-                  obscureText: true,
-                  hintText: 'Enter the password',
-                  onChanged: (value) {
-                    inputPassword = value;
-                  },
-                  onSaved: (String? value) {
-                    // This optional block of code can be used to run
-                    // code when the user saves the form.
-                  },
-                  validator: (String? value) {
-                    return value!.isEmpty ? 'Password is mandatory' : null;
-                  },
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                PlatformElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final loginDTO = LoginDTO(
-                        username: inputLogin,
-                        password: inputPassword,
-                      );
-                    }
-                  },
-                  child: Text("Login"),
-                )
-              ],
+              children: [const BodyHeader(), bodyForm(), bodyRegisterButtons()],
             ),
           ),
         ),
-      );
-    }
+      ),
+    );
+  }
+
+  Widget bodyForm() {
+    return Form(
+      key: _formKey,
+      autovalidateMode: AutovalidateMode.disabled,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .02,
+            ),
+            TextFormWidget("Email", false, (value) {
+              inputLogin = value;
+            }),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .02,
+            ),
+            TextFormWidget("Password", true, (value) {
+              inputPass = value;
+            }),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * .02,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final loginDTO = LoginDTO(
+                    email: inputLogin,
+                    password: inputPass,
+                    emailLink: inputPass);
+                print(loginDTO);
+                BlocProvider.of<LoginBloc>(context)
+                    .add(LogInWithEmailPassword(loginDTO));
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.purple.withOpacity(0.7),
+                onSurface: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                minimumSize: Size(MediaQuery.of(context).size.width * .4, 45),
+              ),
+              child: Text(
+                "Giriş Yap",
+                style: TextStyle(color: Themes.mainColor, fontSize: 16),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget bodyRegisterButtons() {
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * .04,
+        ),
+        Text(
+          "Hesabınızı Oluşturun",
+          style: TextStyle(color: Themes.mainColor, fontSize: 18),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * .02,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            BlocProvider.of<LoginBloc>(context).add(LogInWithGoogle());
+          },
+          style: ElevatedButton.styleFrom(
+            side: BorderSide(color: Themes.mainColor, width: 2.5),
+            primary: Colors.transparent,
+            onSurface: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            minimumSize: Size(MediaQuery.of(context).size.width * .8, 45),
+          ),
+          child: Text(
+            "Google İle Devam Et",
+            style: TextStyle(color: Themes.mainColor),
+          ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * .02,
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => SignUpPage(),
+            ));
+          },
+          style: ElevatedButton.styleFrom(
+            side: BorderSide(color: Themes.mainColor, width: 2.5),
+            primary: Colors.transparent,
+            onSurface: Colors.transparent,
+            shadowColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+            ),
+            minimumSize: Size(MediaQuery.of(context).size.width * .8, 45),
+          ),
+          child: Text(
+            "Email İle Devam Et",
+            style: TextStyle(color: Themes.mainColor),
+          ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * .033,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(3.0),
+          child: Text(
+            "Kayıt olarak yada giriş yaparak Kullanım ve Gizlilik Koşullarını, "
+            "okuduğumu ve kabul ettiğimi beyan ederim.",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Themes.mainColor),
+          ),
+        )
+      ],
+    );
+  }
 }

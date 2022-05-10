@@ -8,7 +8,10 @@ abstract class LoginState extends Equatable {
 
 class LoginUninitialized extends LoginState {}
 
-class LoginAuthenticated extends LoginState {}
+class LoginAuthenticated extends LoginState {
+ final AppUserModel appUserModel;
+  const LoginAuthenticated(this.appUserModel);
+}
 
 class LoginUnauthenticated extends LoginState {}
 
