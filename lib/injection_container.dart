@@ -4,7 +4,7 @@ import 'package:purple_coffe/Screens/dashboard/data/data_sources/dashboard_fires
 import 'package:purple_coffe/Screens/dashboard/data/repositories/dashboard_firestore_repository_impl.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/repositories/dashobard_firestore_repository.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/add_fortune_usecase.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/use_cases/add_user_usecase.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/use_cases/set_fortune_usecase.dart';
 import 'package:purple_coffe/Screens/login/domain/use_cases/login_google.dart';
 import 'package:purple_coffe/Screens/login/domain/use_cases/sign_out.dart';
 import 'package:purple_coffe/Screens/login/domain/use_cases/sign_up.dart';
@@ -41,13 +41,14 @@ void initInjections(GetIt serviceLocator) {
       serviceLocator(),
     ),
   );
+
   serviceLocator.registerLazySingleton(
-    () => AddUserUseCase(
+        () => AddFortuneUseCase(
       serviceLocator(),
     ),
   );
   serviceLocator.registerLazySingleton(
-        () => AddFortuneUseCase(
+        () => SetFortuneUseCase(
       serviceLocator(),
     ),
   );

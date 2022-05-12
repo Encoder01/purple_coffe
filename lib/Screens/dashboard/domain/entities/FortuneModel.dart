@@ -8,8 +8,10 @@ class FortuneModel extends Equatable {
   final List<String> inCup;
   final bool isDone;
   final String userId;
+  final String fortuneId;
 
   const FortuneModel({
+    required this.fortuneId,
     required this.userId,
     required this.flatCup,
     required this.inCup,

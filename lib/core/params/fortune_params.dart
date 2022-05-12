@@ -1,10 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/entities/FortuneModel.dart';
 
-class AddFortuneParams extends Equatable {
+class FortuneParams extends Equatable {
   final FortuneModel addFortune;
-
-  const AddFortuneParams({
+    FortuneParams({
     required this.addFortune,
   });
 

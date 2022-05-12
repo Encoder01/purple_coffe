@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class GetFortuneParams extends Equatable {
-  final List<String> fortuneIds;
+  final String userId;
 
   const GetFortuneParams({
-    required this.fortuneIds,
+    required this.userId,
   });
 
   @override
-  List<Object> get props => [fortuneIds];
+  List<Object> get props => [userId];
 }

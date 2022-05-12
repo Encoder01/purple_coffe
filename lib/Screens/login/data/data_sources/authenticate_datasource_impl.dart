@@ -11,46 +11,6 @@ class IAuthenticationDatasourceImplementation
   final _firebaseAuth = FirebaseAuth.instance;
   final docUser = FirebaseFirestore.instance.collection("users");
 
-  /* @override
-  Future<AppUserModel> signInWithEmailPassword(LoginModel login) async {
-    try {
-      UserCredential user = await _firebaseAuth.signInWithEmailLink(
-          email: login.email, emailLink: login.emailLink!);
-      final userModel = await docUser.doc(user.user!.uid).get();
-      return AppUserModel(
-        uid: user.user!.uid,
-        name: userModel.data()!["ad_soyad"] as String,
-        lastName: "",
-        birthDate: DateTime.now(),
-        fTellId: userModel.data()!["fallari"] as List<String>,
-      );
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }*/
-
-  /* @override
-  Future<void> createUserEmailPassword(LoginModel login) async {
-    try {
-      await _firebaseAuth.sendSignInLinkToEmail(
-          email: "jungarkagan@gmail.com",
-          actionCodeSettings: ActionCodeSettings(
-            url: "https://purplecoffe.page.link/mVFa",
-            androidMinimumVersion: "21",
-            handleCodeInApp: true,
-            androidInstallApp: false,
-            androidPackageName: kPackageId,
-          ));
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-email') {
-        throw Exception('The email is invalid.');
-      } else {
-        throw Exception(e.code);
-      }
-    } catch (e) {
-      throw Exception(e.toString());
-    }
-  }*/
   @override
   Future<AppUserModel> createUserEmailPassword(LoginModel login) async {
     try {

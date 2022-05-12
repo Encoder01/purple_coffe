@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:purple_coffe/Screens/dashboard/data/models/fortune_tells.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/use_cases/get_fortune_usecase.dart';
-import 'package:purple_coffe/injection_container.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/pages/fortune_detail.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/widgets/empty_fortune.dart';
+import 'package:purple_coffe/Screens/login/data/models/user.dart';
 
 import '../../../../config/themes/themes.dart';
-import '../../../../core/params/get_fortune_params.dart';
+import '../../../../core/constants/functions.dart';
+import '../manager/fortune_bloc.dart';
 
 class MyFortuneTells extends StatefulWidget {
-  MyFortuneTells({Key? key, required this.fortuneIds}) : super(key: key);
-  final List<String> fortuneIds;
+  MyFortuneTells({Key? key, required this.user, required this.onTap})
+      : super(key: key);
+  final AppUserModel user;
+  Function(int) onTap;
 
   @override
   State<MyFortuneTells> createState() => _MyFortuneTellsState();
@@ -16,29 +22,14 @@ class MyFortuneTells extends StatefulWidget {
 
 class _MyFortuneTellsState extends State<MyFortuneTells>
     with TickerProviderStateMixin {
-  GetFortuneUseCase getUserUseCase = serviceLocator();
-  List<FortuneTells> fortuneTels = [];
+  late TabController controller;
 
   @override
   void initState() {
-    getUserUseCase = serviceLocator();
-    getFortunes();
+    BlocProvider.of<FortuneBloc>(context).add(GetMyFortunes(widget.user.uid!));
     controller = TabController(length: 2, vsync: this);
     super.initState();
   }
-
-  getFortunes() async {
-    final result = await getUserUseCase
-        .call(GetFortuneParams(fortuneIds: widget.fortuneIds));
-    print(widget.fortuneIds);
-    result.fold((failure) {}, (success) {
-      fortuneTels = success;
-      print(fortuneTels.first.userId);
-      setState(() {});
-    });
-  }
-
-  late TabController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -47,25 +38,21 @@ class _MyFortuneTellsState extends State<MyFortuneTells>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                "assets/logo/title_tr.png",
-              ),
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
                   "Gelen Kutusu",
                   style: TextStyle(
-                      color: Themes.subColor, fontWeight: FontWeight.bold),
+                      color: Themes.mainColor, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
           ),
-          elevation: 0,
-          backgroundColor: Colors.transparent,
-          toolbarHeight: 110,
           bottom: TabBar(
             controller: controller,
             indicatorColor: Themes.subColor,
@@ -88,48 +75,93 @@ class _MyFortuneTellsState extends State<MyFortuneTells>
         body: TabBarView(
           controller: controller,
           children: [
-            Container(
-              padding: const EdgeInsets.only(top: 8),
-              child: ListView.separated(
-                itemCount: fortuneTels.isEmpty ? 1 : fortuneTels.length,
-                itemBuilder: (context, index) {
-                  if (fortuneTels.isEmpty) {
-                    return const Center(child: Text("Gelen Kutunuz boş"));
-                  } else {
-                    return ListTile(
-                      onTap: () {
-
-                      },
-                      leading: !fortuneTels[index].isDone!
-                          ? const Icon(Icons.mark_email_unread)
-                          : const SizedBox(),
-                      contentPadding: const EdgeInsets.all(5),
-                      minLeadingWidth: 3,
-                      minVerticalPadding: 5,
-                      title: Text(
-                        !fortuneTels[index].isDone!
-                            ? "Kahve Falın Hazırlanıyor"
-                            : "Kahve Falın",
-                        style: const TextStyle(
-                          color: Colors.yellow,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      subtitle: Text(
-                        "${DateTime.now().toLocal()}-${fortuneTels[index]
-                            .userId!}",
-                        style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
-                        ),
-                      ),
-                    );
-                  }
-                }, separatorBuilder: (BuildContext context, int index) {
-                return Divider();
+            RefreshIndicator(
+              onRefresh: () async {
+                BlocProvider.of<FortuneBloc>(context)
+                    .add(GetMyFortunes(widget.user.uid!));
               },
+              child: Container(
+                padding: const EdgeInsets.only(top: 8),
+                height: MediaQuery.of(context).size.height,
+                alignment: Alignment.center,
+                child: BlocBuilder<FortuneBloc, FortuneState>(
+                  builder: (context, state) {
+                    if (state is FortuneLoaded) {
+                      final List<FortuneTells> fortuneTels = state.fortuneTells;
+                      if (fortuneTels.isEmpty) {
+                        return EmptyFortuneWidget(
+                          onTap: widget.onTap,
+                        );
+                      } else {
+                        return ListView.separated(
+                          itemCount:
+                              fortuneTels.isEmpty ? 1 : fortuneTels.length,
+                          itemBuilder: (context, index) {
+                            final FortuneTells fortuneIndex =
+                                fortuneTels[index];
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ListTile(
+                                onTap: () {
+                                  if (fortuneIndex.isDone!) {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            FortuneDetail(fortuneIndex),
+                                      ),
+                                    );
+                                  }
+                                },
+                                contentPadding: const EdgeInsets.all(5),
+                                minLeadingWidth: 3,
+                                minVerticalPadding: 5,
+                                title: Text(
+                                  !fortuneIndex.isDone!
+                                      ? "Kahve Falın Hazırlanıyor"
+                                      : "Kahve Falın",
+                                  style: TextStyle(
+                                    color: Themes.mainColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  "${formatDate(fortuneIndex.createDate!)}-${fortuneIndex.fortuneId!}",
+                                  style: TextStyle(
+                                    color:Themes.mainColor.withOpacity(0.8),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Divider(
+                                color: Colors.white,
+                              ),
+                            );
+                          },
+                        );
+                      }
+                    } else if (state is FortuneLoading) {
+                      return Center(
+                        child: PlatformCircularProgressIndicator(),
+                      );
+                    } else if (state is ErrorFortuneLoad) {
+                      return Center(
+                        child: EmptyFortuneWidget(onTap: widget.onTap),
+                      );
+                    } else {
+                      return Center(
+                        child: EmptyFortuneWidget(onTap: widget.onTap),
+                      );
+                    }
+                  },
+                ),
               ),
             ),
-            Icon(Icons.directions_transit),
+            Icon(Icons.notifications),
           ],
         ),
       ),

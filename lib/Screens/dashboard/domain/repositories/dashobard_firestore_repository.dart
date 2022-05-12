@@ -6,10 +6,11 @@ import 'package:purple_coffe/core/params/no_params.dart';
 
 import '../../../../core/error/failures.dart';
 
-abstract class DashboardFirestoreRepository{
-  Future<Either<Failure, NoParams>> addUser(UserModel addUser);
+abstract class DashboardFirestoreRepository {
+  Future<Either<Failure, List<FortuneTells>>> addFortuneTell(
+      FortuneModel addFortune);
+  Future<Either<Failure, List<FortuneTells>>> setFortuneTell(
+      FortuneModel addFortune, );
 
-  Future<Either<Failure, NoParams>> addFortuneTell(FortuneModel addFortune);
-
-  Future<Either<Failure, List<FortuneTells>>> getMyFortunesTell(List<String> fortuneIds);
+  Future<Either<Failure, List<FortuneTells>>> getMyFortunesTell(String userId);
 }

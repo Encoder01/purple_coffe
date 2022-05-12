@@ -8,6 +8,7 @@ class FortuneTells {
   List<String>? inCup;
   bool? isDone;
   String? userId;
+  String? fortuneId;
 
   FortuneTells(
       {this.createDate,
@@ -16,7 +17,8 @@ class FortuneTells {
       this.fortune_quest,
       this.inCup,
       this.isDone,
-      this.userId});
+      this.userId,
+      this.fortuneId});
 
   FortuneTells.fromJson(Map<String, dynamic> json) {
     createDate = DateTime.fromMicrosecondsSinceEpoch(
@@ -27,6 +29,7 @@ class FortuneTells {
     inCup = json['in_cup'].cast<String>() as List<String>;
     isDone = json['is_done'] as bool;
     userId = json['user_id'] as String;
+    fortuneId = json['fortune_id'] as String;
   }
 
   Map<String, dynamic> toJson() {
@@ -38,6 +41,7 @@ class FortuneTells {
     data['in_cup'] = inCup;
     data['is_done'] = isDone;
     data['user_id'] = userId;
+    data['fortune_id'] = fortuneId;
     return data;
   }
 }

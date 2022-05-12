@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/entities/UserModel.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/pages/profile.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/my_fortune_tells.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/send_fortune_tells.dart';
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
@@ -29,26 +29,33 @@ class _DashBoardState extends State<DashBoard> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/arkaplan.png"),
-            fit: BoxFit.fill,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: Themes.gradientColors,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
           ),
         ),
         child: Stack(
           children: <Widget>[
             Offstage(
                 offstage: _selectedIndex != 0,
-                child: SendFortuneTells(widget.appUserModel.uid!)),
+                child: SendFortuneTells(widget.appUserModel)),
             Offstage(
               offstage: _selectedIndex != 1,
-              child: MyFortuneTells(fortuneIds: widget.appUserModel.fTellId!),
+              child: MyFortuneTells(
+                  user: widget.appUserModel,
+                  onTap: (value) => _onItemTapped(value)),
+            ),
+            Offstage(
+              offstage: _selectedIndex != 3,
+              child: ProfilePage(widget.appUserModel),
             ),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF371c46),
+        backgroundColor: Themes.gradientColors.last,
         elevation: 0,
         showUnselectedLabels: false,
         showSelectedLabels: false,
@@ -62,11 +69,11 @@ class _DashBoardState extends State<DashBoard> {
             label: "",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Themes.mainColor),
+            icon: Icon(Ionicons.pricetag, color: Themes.mainColor),
             label: "",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings, color: Themes.mainColor),
+            icon: Icon(Icons.person, color: Themes.mainColor),
             label: "",
           ),
         ],

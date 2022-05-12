@@ -18,42 +18,24 @@ class DashboardFirestoreRepositoryImplementation
       this._firestoreRepositoryImplementation);
 
   @override
-  Future<Either<Failure, NoParams>> addUser(UserModel addUser) async {
-    try {
-      await _firestoreRepositoryImplementation.addUser(AppUserModel(
-          uid: addUser.uid,
-          name: addUser.name,
-          email: addUser.email,
-          sex: addUser.sex,
-          birthDate: addUser.birthDate,
-          fTellId: addUser.fTellId));
-      return Right(NoParams());
-    } catch (exception) {
-      return Left(ServerFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, List<FortuneTells>>> getMyFortunesTell(
-      List<String> fortuneIds) async {
+      String userId) async {
     try {
       final List<FortuneTells> fortunes =
           await _firestoreRepositoryImplementation
-              .getMyFortunesTell(fortuneIds);
-      print("success");
+              .getMyFortunesTell(userId);
       return Right(fortunes);
     } catch (exception) {
-      print("failed");
-
       return Left(ServerFailure());
     }
   }
 
   @override
-  Future<Either<Failure, NoParams>> addFortuneTell(
+  Future<Either<Failure, List<FortuneTells>>> addFortuneTell(
       FortuneModel addFortune) async {
     try {
-      await _firestoreRepositoryImplementation.addFortuneTell(
+      final List<FortuneTells> fortuneTells =
+          await _firestoreRepositoryImplementation.addFortuneTell(
         FortuneTells(
           userId: addFortune.userId,
           flatCup: addFortune.flatCup,
@@ -64,7 +46,29 @@ class DashboardFirestoreRepositoryImplementation
           fortuneComment: addFortune.fortuneComment,
         ),
       );
-      return Right(NoParams());
+      return Right(fortuneTells);
+    } catch (exception) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<FortuneTells>>> setFortuneTell(FortuneModel addFortune) async {
+    try {
+      final List<FortuneTells> fortuneTells =
+          await _firestoreRepositoryImplementation.setFortuneTell(
+        FortuneTells(
+          fortuneId: addFortune.fortuneId,
+          userId: addFortune.userId,
+          flatCup: addFortune.flatCup,
+          inCup: addFortune.inCup,
+          fortune_quest: addFortune.fortune_quest,
+          createDate: addFortune.createDate,
+          isDone: addFortune.isDone,
+          fortuneComment: addFortune.fortuneComment,
+        )
+      );
+      return Right(fortuneTells);
     } catch (exception) {
       return Left(ServerFailure());
     }

@@ -12,7 +12,7 @@ class GetFortuneUseCase extends UseCase<List<FortuneTells>, GetFortuneParams> {
 
   @override
   Future<Either<Failure, List<FortuneTells> >> call(GetFortuneParams params) async {
-    return  await firestoreRepository.getMyFortunesTell(params.fortuneIds);
+    return  await firestoreRepository.getMyFortunesTell(params.userId);
   }
 }
 
