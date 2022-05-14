@@ -85,10 +85,16 @@ class _LoginPageState extends State<LoginPage> {
                 minimumSize: Size(MediaQuery.of(context).size.width * .4, 45),
               ),
               child: Text(
-                "Giriş Yap",
+                "Login",
                 style: TextStyle(color: Themes.mainColor, fontSize: 16),
               ),
             ),
+            TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Forgot my password",
+                  style: TextStyle(color: Themes.mainColor),
+                ))
           ],
         ),
       ),
@@ -102,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
           height: MediaQuery.of(context).size.height * .04,
         ),
         Text(
-          "Hesabınızı Oluşturun",
+          "Create Your Account",
           style: TextStyle(color: Themes.mainColor, fontSize: 18),
         ),
         SizedBox(
@@ -123,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
             minimumSize: Size(MediaQuery.of(context).size.width * .8, 45),
           ),
           child: Text(
-            "Google İle Devam Et",
+            "Continue With Google",
             style: TextStyle(color: Themes.mainColor),
           ),
         ),
@@ -147,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
             minimumSize: Size(MediaQuery.of(context).size.width * .8, 45),
           ),
           child: Text(
-            "Email İle Devam Et",
+            "Continue With Email",
             style: TextStyle(color: Themes.mainColor),
           ),
         ),
@@ -157,8 +163,7 @@ class _LoginPageState extends State<LoginPage> {
         Padding(
           padding: const EdgeInsets.all(3.0),
           child: Text(
-            "Kayıt olarak yada giriş yaparak Kullanım ve Gizlilik Koşullarını, "
-            "okuduğumu ve kabul ettiğimi beyan ederim.",
+            "By registering or logging in, I declare that I have read and accepted the Terms of Use and Privacy.",
             textAlign: TextAlign.center,
             style: TextStyle(color: Themes.mainColor),
           ),

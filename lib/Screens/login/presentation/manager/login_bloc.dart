@@ -17,11 +17,11 @@ part "login_event.dart";
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  final Login loginUseCase;
+  final LoginUserCase loginUseCase;
   final CheckAuthenticationUseCase checkAuthenticationUseCase;
-  final LoginGoogle loginGoogleUseCase;
-  final SignOut signOutUseCase;
-  final SignUp signUpUseCase;
+  final LoginGoogleUseCase loginGoogleUseCase;
+  final SignOutUseCase signOutUseCase;
+  final SignUpUseCase signUpUseCase;
 
   @override
   LoginBloc(

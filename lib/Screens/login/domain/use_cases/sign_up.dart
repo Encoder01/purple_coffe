@@ -7,10 +7,10 @@ import '../../../../core/usecases/usecases.dart';
 import '../../../../core/params/login_params.dart';
 import '../repositories/login_repository.dart';
 
-class SignUp extends UseCase<AppUserModel, LoginParams> {
+class SignUpUseCase extends UseCase<AppUserModel, LoginParams> {
   final LoginRepository loginRepository;
 
-  SignUp(this.loginRepository);
+  SignUpUseCase(this.loginRepository);
 
   @override
   Future<Either<Failure, AppUserModel>> call(LoginParams params) async {

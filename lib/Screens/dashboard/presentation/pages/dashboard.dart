@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/manager/user_bloc.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/profile.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/my_fortune_tells.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/pages/send_fortune_tells.dart';
@@ -18,13 +20,16 @@ class DashBoard extends StatefulWidget {
 
 class _DashBoardState extends State<DashBoard> {
   int _selectedIndex = 0;
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
   }
-
+@override
+  void initState() {
+    BlocProvider.of<UserBloc>(context).add(GetUser(widget.appUserModel.uid!));
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

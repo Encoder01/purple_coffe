@@ -6,10 +6,10 @@ import '../../../../core/error/failures.dart';
 import '../../data/models/user.dart';
 import '../repositories/login_repository.dart';
 
-class LoginGoogle extends UseCase<AppUserModel, NoParams> {
+class LoginGoogleUseCase extends UseCase<AppUserModel, NoParams> {
   final LoginRepository repository;
 
-  LoginGoogle(this.repository);
+  LoginGoogleUseCase(this.repository);
 
   @override
   Future<Either<Failure, AppUserModel>> call(NoParams params) async {

@@ -9,8 +9,12 @@ import 'package:ionicons/ionicons.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/add_fortune_usecase.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/widgets/colored_container.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/widgets/colored_text.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/widgets/sended_fortune.dart';
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
+import 'package:purple_coffe/config/env/env.dart';
+import 'package:purple_coffe/core/constants/firebase_constants.dart';
 import 'dart:async';
+import '../../../../core/constants/functions.dart';
 import '../../../../injection_container.dart';
 import '../../domain/entities/FortuneModel.dart';
 import '../manager/fortune_bloc.dart';
@@ -32,83 +36,19 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
 
   Future<MemoryImage?> imagePicker(
       {BuildContext? context, bool isMultiImage = false}) async {
-    ImageSource? source = await dialogCameraOrGallery();
+    ImageSource source =
+        await dialogCameraOrGallery(context!) ?? ImageSource.camera;
     try {
       final XFile? pickedFile = await _picker.pickImage(
-        source: source!,
+        source: source,
       );
       Uint8List asByte = await pickedFile!.readAsBytes();
       final memoryImage = MemoryImage(asByte);
       return memoryImage;
-    } catch (e) {}
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
     return null;
-  }
-
-  Future<ImageSource?> dialogCameraOrGallery() async {
-    ImageSource? source;
-    await showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        clipBehavior: Clip.hardEdge,
-        content: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/arkaplan.png"),
-              fit: BoxFit.fill,
-            ),
-          ),
-          height: 250,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  source = ImageSource.camera;
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(MediaQuery.of(context).size.width * .5, 40),
-                  primary: Colors.purple,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(Ionicons.camera),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("Camera"),
-                  ],
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  source = ImageSource.gallery;
-                  Navigator.pop(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(MediaQuery.of(context).size.width * .5, 40),
-                  primary: Colors.purple,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [
-                    Icon(Ionicons.albums),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("Gallery"),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        contentPadding: EdgeInsets.zero,
-      ),
-    );
-    return source;
   }
 
   @override
@@ -290,32 +230,17 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    List<String> flatCup=[];
-                    List<String> cupIn=[];
-
-                    for (var element in inFlat) {
-                      flatCup.add(base64Encode(element.bytes));
-                    } for (var element in inCup) {
-                      cupIn.add(base64Encode(element.bytes));
+                  onPressed: () async {
+                    AppEnvironment.appEnv=(await getEnvironment())!;
+                    if (AppEnvironment.appEnv.readedDailyFortune! >=
+                        AppEnvironment.appEnv.dailyFortune!) {
+                      final bool isSendFortune = await busyDialog(context);
+                      if (isSendFortune) {
+                        sendFortune();
+                      }
+                    }else{
+                      sendFortune();
                     }
-                    BlocProvider.of<FortuneBloc>(context).add(
-                      AddFortunes(
-                        FortuneModel(
-                          fortuneId: "",
-                          userId: widget.user.uid!,
-                          flatCup:flatCup,
-                          inCup: cupIn,
-                          fortune_quest: const {
-                            "answer": "null",
-                            "quest": "Soru Sor"
-                          },
-                          createDate: DateTime.now(),
-                          fortuneComment: "null",
-                          isDone: false,
-                        )
-                      ),
-                    );
                   },
                   child: const ColoredText(
                     data: "Coffee Reading Send",
@@ -327,6 +252,36 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
             return Container();
           }
         },
+      ),
+    );
+  }
+  void sendFortune(){
+    List<String> flatCup = [];
+    List<String> cupIn = [];
+    for (final element in inFlat) {
+      flatCup.add(base64Encode(element.bytes));
+    }
+    for (final element in inCup) {
+      cupIn.add(base64Encode(element.bytes));
+    }
+    BlocProvider.of<FortuneBloc>(context).add(
+      AddFortunes(FortuneModel(
+        fortuneId: "",
+        userId: widget.user.uid!,
+        flatCup: flatCup,
+        inCup: cupIn,
+        fortune_quest: const {
+          "answer": "null",
+          "quest": "Soru Sor"
+        },
+        createDate: DateTime.now(),
+        fortuneComment: "null",
+        isDone: false,
+      )),
+    );
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const SendedFortune(),
       ),
     );
   }

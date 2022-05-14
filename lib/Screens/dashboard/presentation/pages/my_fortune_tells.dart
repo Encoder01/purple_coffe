@@ -161,7 +161,7 @@ class _MyFortuneTellsState extends State<MyFortuneTells>
                 ),
               ),
             ),
-            Icon(Icons.notifications),
+            Center(child: Text("Yapım aşamasında")),
           ],
         ),
       ),

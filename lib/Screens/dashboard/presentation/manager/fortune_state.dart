@@ -23,6 +23,7 @@ class FortuneLoaded extends FortuneState {
   List<Object?> get props => fortuneTells;
 }
 
+
 class ErrorFortuneLoad extends FortuneState {
   @override
   List<Object?> get props => throw UnimplementedError();

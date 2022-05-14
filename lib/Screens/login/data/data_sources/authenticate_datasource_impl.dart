@@ -22,7 +22,7 @@ class IAuthenticationDatasourceImplementation
               name: user.user!.displayName ?? "adsız_kullanıcı",
               email: user.user!.email ?? login.email,
               sex: "unknown",
-              birthDate: DateTime.now(),
+              birthDate: "dd/mm/YY",
               fTellId: [""],
             ).toJson(),
           );
@@ -80,7 +80,7 @@ class IAuthenticationDatasourceImplementation
           name: user.user!.displayName ?? "adsız_kullanıcı",
           email: user.user!.email!,
           sex: "unknown",
-          birthDate: DateTime.now(),
+          birthDate: "dd/mm/YY",
           fTellId: [""],
         ).toJson(),
       );

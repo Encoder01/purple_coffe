@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.16.2 <3.0.0"
+  sdk: ">=2.17.0 <=3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -32,27 +32,29 @@ dependencies:
 
   #BASE_TOOLS
   flutter_platform_widgets: ^1.20.0
-  auto_route: ^4.0.0
-  flutter_hooks: ^0.18.3
-  equatable: ^2.0.3
-  get_it: ^7.2.0
+  flutter_hooks: ^0.18.4
   hive: ^2.1.0
   flutter_bloc: ^8.0.1
   flutter_screenutil: ^5.5.2
-  auto_size_text: ^3.0.0
+  soundpool: ^2.3.0
+  flutter_native_splash: ^2.1.6
+
   #FRONT_END_TOOLS
   cupertino_icons: ^1.0.4
   ionicons: ^0.1.2
-  image_picker: ^0.8.5+1
+  image_picker: ^0.8.5+3
+  auto_size_text: ^3.0.0
+
   #BACK_END_TOOLS
+  equatable: ^2.0.3
+  get_it: ^7.2.0
+  auto_route: ^4.0.1
   dartz: ^0.10.1
   data_connection_checker: ^0.3.4
   firebase_core: ^1.16.0
   cloud_firestore: ^3.1.14
   google_sign_in: ^5.3.1
   firebase_auth: ^3.3.17
-  firebase_dynamic_links: ^4.2.2
-  appwrite: ^4.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -65,6 +67,7 @@ flutter:
   assets:
     - assets/images/
     - assets/logo/
+    - assets/sounds/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

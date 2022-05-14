@@ -5,10 +5,10 @@ import 'package:purple_coffe/core/usecases/usecases.dart';
 import '../../../../core/error/failures.dart';
 import '../repositories/login_repository.dart';
 
-class SignOut extends UseCase<void, NoParams> {
+class SignOutUseCase extends UseCase<void, NoParams> {
   final LoginRepository repository;
 
-  SignOut(this.repository);
+  SignOutUseCase(this.repository);
 
   @override
   Future<Either<Failure, bool>> call(NoParams params) async {

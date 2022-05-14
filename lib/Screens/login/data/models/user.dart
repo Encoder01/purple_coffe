@@ -6,7 +6,7 @@ class AppUserModel extends Equatable {
   String? name;
   String? email;
   String? sex;
-  DateTime? birthDate;
+  String? birthDate;
   List<String>? fTellId;
 
     AppUserModel({
@@ -24,7 +24,7 @@ class AppUserModel extends Equatable {
       name: '',
       email: '',
       sex: '',
-      birthDate: DateTime.now(),
+      birthDate: "01/01/1980",
       fTellId: const [''],
     );
   }
@@ -34,7 +34,7 @@ class AppUserModel extends Equatable {
     name = json['user_name'] as String;
     email = json['user_email'] as String;
     sex = json['user_sex'] as String;
-    birthDate = DateTime.fromMicrosecondsSinceEpoch((json['user_birth_date'] as Timestamp).microsecondsSinceEpoch);
+    birthDate = json['user_birth_date'] as String;
     fTellId = json['user_fortune_id'].cast<String>() as List<String>;
   }
 

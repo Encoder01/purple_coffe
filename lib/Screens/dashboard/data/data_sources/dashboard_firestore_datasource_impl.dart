@@ -1,14 +1,9 @@
 import 'package:purple_coffe/Screens/dashboard/data/models/fortune_tells.dart';
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
-
+import 'package:purple_coffe/core/constants/firebase_constants.dart';
 import 'dashboard_firestore_datasource.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DashboardFirestoreDatasourceImplementation
     implements DashboardFirestoreDatasource {
-  final _fireStore = FirebaseFirestore.instance;
-  final docFal = FirebaseFirestore.instance.collection("fallar");
-  final docUser = FirebaseFirestore.instance.collection("users");
 
   @override
   Future<List<FortuneTells>> getMyFortunesTell(String userId) async {
@@ -43,9 +38,9 @@ class DashboardFirestoreDatasourceImplementation
         
       }
       final userDoc =
-      await _fireStore.collection("users").doc(fortuneTells.userId).get();
+      await fireStore.collection("users").doc(fortuneTells.userId).get();
       final userModel = AppUserModel.fromJson(userDoc.data()!);
-      await _fireStore.collection("users").doc(fortuneTells.userId).set(
+      await fireStore.collection("users").doc(fortuneTells.userId).set(
         AppUserModel(
             uid: userModel.uid,
             name: userModel.name,
@@ -78,9 +73,9 @@ class DashboardFirestoreDatasourceImplementation
       }
 
       final userDoc =
-      await _fireStore.collection("users").doc(fortuneTells.userId).get();
+      await fireStore.collection("users").doc(fortuneTells.userId).get();
       final userModel = AppUserModel.fromJson(userDoc.data()!);
-      await _fireStore.collection("users").doc(fortuneTells.userId).set(
+      await fireStore.collection("users").doc(fortuneTells.userId).set(
         AppUserModel(
             uid: userModel.uid,
             name: userModel.name,
@@ -92,6 +87,27 @@ class DashboardFirestoreDatasourceImplementation
       );
       return fortuneDoc;
     } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<AppUserModel> setUserInfo(AppUserModel updateUser) async {
+    try {
+      await docUser.doc(updateUser.uid).set(updateUser.toJson());
+      final userData= await docUser.doc(updateUser.uid).get();
+      return AppUserModel.fromJson(userData.data()!);
+    } on Exception catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<AppUserModel> getUserInfo(String userId) async {
+    try {
+      final userData= await docUser.doc(userId).get();
+      return AppUserModel.fromJson(userData.data()!);
+    } on Exception catch (e) {
       throw e.toString();
     }
   }

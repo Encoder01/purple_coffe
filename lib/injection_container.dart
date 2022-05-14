@@ -10,6 +10,8 @@ import 'package:purple_coffe/Screens/login/domain/use_cases/sign_out.dart';
 import 'package:purple_coffe/Screens/login/domain/use_cases/sign_up.dart';
 
 import 'Screens/dashboard/domain/use_cases/get_fortune_usecase.dart';
+import 'Screens/dashboard/domain/use_cases/get_user_usecase.dart';
+import 'Screens/dashboard/domain/use_cases/set_user_usercase.dart';
 import 'Screens/login/data/data_sources/authenticate_datasource_impl.dart';
 import 'Screens/login/data/data_sources/authentication_datasource.dart';
 import 'Screens/login/data/repositories/login_repository_impl.dart';
@@ -57,9 +59,18 @@ void initInjections(GetIt serviceLocator) {
       serviceLocator(),
     ),
   );
-
   serviceLocator.registerLazySingleton(
-    () => Login(
+        () => SetUserUseCase(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton(
+        () => GetUserUseCase(
+      serviceLocator(),
+    ),
+  );
+  serviceLocator.registerLazySingleton(
+    () => LoginUserCase(
       serviceLocator(),
     ),
   );
@@ -69,17 +80,17 @@ void initInjections(GetIt serviceLocator) {
     ),
   );
   serviceLocator.registerLazySingleton(
-    () => LoginGoogle(
+    () => LoginGoogleUseCase(
       serviceLocator(),
     ),
   );
   serviceLocator.registerLazySingleton(
-    () => SignUp(
+    () => SignUpUseCase(
       serviceLocator(),
     ),
   );
   serviceLocator.registerLazySingleton(
-    () => SignOut(
+    () => SignOutUseCase(
       serviceLocator(),
     ),
   );
