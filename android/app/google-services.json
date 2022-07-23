@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "828924547243",
+    "firebase_url": "https://alwaystest-6b017-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "alwaystest-6b017",
+    "storage_bucket": "alwaystest-6b017.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828924547243:android:31c5efdd42fc5cf40ce7ee",
+        "android_client_info": {
+          "package_name": "com.ttan.purplecoffe.purple_coffe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828924547243-185e879lrm8oh6lmag37io2oefjq5cnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ttan.purplecoffe.purple_coffe",
+            "certificate_hash": "85902c6e90198c0674d9b8fc64637e5f66cbb5ac"
+          }
+        },
+        {
+          "client_id": "828924547243-vpoqnh79uq00tllvdijjca725hbffuon.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-b_RoUe6s0SIjztDAXBK_nhoIpa7X8eg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828924547243-vpoqnh79uq00tllvdijjca725hbffuon.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
