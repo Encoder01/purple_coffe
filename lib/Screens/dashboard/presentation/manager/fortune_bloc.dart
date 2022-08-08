@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/use_cases/add_fortune_usecase.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/use_cases/delete_fortune_usercase.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/use_cases/get_fortune_usecase.dart';
-import 'package:purple_coffe/Screens/dashboard/domain/use_cases/set_fortune_usecase.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/use_cases/fortunes/add_fortune_usecase.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/use_cases/fortunes/delete_fortune_usercase.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/use_cases/fortunes/get_fortune_usecase.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/use_cases/fortunes/set_fortune_usecase.dart';
 import 'package:purple_coffe/core/params/fortune_params.dart';
 import 'package:purple_coffe/core/params/get_fortune_params.dart';
 

@@ -4,8 +4,8 @@ import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/core/params/user_params.dart';
 
 import '../../../../core/params/get_user_params.dart';
-import '../../domain/use_cases/get_user_usecase.dart';
-import '../../domain/use_cases/set_user_usercase.dart';
+import '../../domain/use_cases/user/get_user_usecase.dart';
+import '../../domain/use_cases/user/set_user_usercase.dart';
 
 part 'user_event.dart';
 

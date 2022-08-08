@@ -10,10 +10,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/entities/FortuneModel.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/fortune_bloc.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/widgets/colored_container.dart';
-import 'package:purple_coffe/Screens/dashboard/presentation/widgets/colored_text.dart';
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/config/env/env.dart';
 import 'package:purple_coffe/config/routes/router.gr.dart';
+import 'package:purple_coffe/config/themes/themes.dart';
 import 'package:purple_coffe/core/constants/firebase_constants.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
 
@@ -72,11 +72,11 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                 children: [
                   const SizedBox(),
                   Image.asset("assets/logo/title_tr.png"),
-                  const ColoredText(
-                    data:
+                  Text(
                         "Take a picture of the inside of your cup from four angles, "
                         "as indicated in the photos, "
                         "by turning your cup counterclockwise.",
+                    style: Themes.stylePurple,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -200,8 +200,8 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                       ],
                     ),
                   ),
-                  const ColoredText(
-                    data: "You can now take a photo of your plate.",
+                  Text(
+                    "You can now take a photo of your plate.",style: Themes.stylePurple,
                   ),
                   ColoredContainer(
                     child: IconButton(
@@ -249,8 +249,8 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                         showSnackBar("Lütfen önce gerekli yerlerin fotoğrafını çekiniz.");
                       }
                     },
-                    child: const ColoredText(
-                      data: "Coffee Reading Send",
+                    child: Text(
+                       "Coffee Reading Send",style: Themes.stylePurple,
                     ),
                   )
                 ],

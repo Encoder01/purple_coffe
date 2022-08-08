@@ -10,6 +10,12 @@ mixin Themes {
     const Color(0xFF461c52),
   ];
 
+  static TextStyle stylePurple =TextStyle(
+      color:Themes.mainColor,
+      height: 1.25,
+      letterSpacing: .5,
+      fontFamily: "Avenir");
+
   static final lightTheme = ThemeData(
       appBarTheme: AppBarTheme(backgroundColor: mainColor),
       primaryColor: mainColor,
