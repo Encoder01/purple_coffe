@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/manager/payment_provider.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
-
+import 'package:provider/provider.dart';
 class Paywall extends StatelessWidget {
-  const Paywall({Key? key}) : super(key: key);
+    const Paywall({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
@@ -62,7 +64,9 @@ class Paywall extends StatelessWidget {
             style: Themes.stylePurple,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Provider.of<PaymentProvider>(context,listen: false).initPlatform();
+            },
             style: ElevatedButton.styleFrom(
                 primary: Colors.transparent,
                 shadowColor: Colors.transparent,

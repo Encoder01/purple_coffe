@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/fortune_bloc.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/manager/payment_provider.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/user_bloc.dart';
 import 'package:purple_coffe/Screens/login/presentation/manager/login_bloc.dart';
 import 'package:purple_coffe/config/env/env.dart';
@@ -13,38 +14,42 @@ import 'package:purple_coffe/core/constants/firebase_constants.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
 import 'package:purple_coffe/core/models/app_env.dart';
 import 'package:purple_coffe/injection_container.dart' as di;
-
+import 'package:provider/provider.dart' as prv;
 import 'core/constants/app_constants.dart';
- const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('ic_launcher');
+
+const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('ic_launcher');
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  const InitializationSettings initializationSettings =  InitializationSettings(
+  const InitializationSettings initializationSettings = InitializationSettings(
     android: initializationSettingsAndroid,
   );
-   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   await Firebase.initializeApp();
   await di.init();
   runApp(const SplashScreen());
 }
+
 final _appRouter = AppRouter();
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   Future<String> initialization() async {
-
     AppEnvironment.appEnv = await getEnvironment() ?? AppEnv.empty();
     await loadSound("assets/sounds/sent_fortune.m4a");
     await pool.play(kSoundId!).whenComplete(() => null);
     await Future.delayed(const Duration(seconds: 2));
 
-    await  OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
     await OneSignal.shared.setAppId(koneSignalKey);
 
-   await OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
+    await OneSignal.shared
+        .promptUserForPushNotificationPermission()
+        .then((accepted) {
       print("Accepted permission: $accepted");
     });
     return Future.value("true");
@@ -55,8 +60,7 @@ class SplashScreen extends StatelessWidget {
     return FutureBuilder<String>(
       future: initialization(),
       builder: (BuildContext context, AsyncSnapshot<String> state) {
-        print(state);
-        if (state.data==null     ) {
+        if (state.data == null) {
           return Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -93,6 +97,15 @@ class SplashScreen extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
+  PaymentProvider paymentProvider = PaymentProvider(
+    di.serviceLocator(),
+    di.serviceLocator(),
+    di.serviceLocator(),
+    di.serviceLocator(),
+  );
+  MyApp(){
+   paymentProvider.initPlatform();
+  }
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -122,11 +135,20 @@ class MyApp extends StatelessWidget {
           ),
         )
       ],
-      child: MaterialApp.router(
-        theme: Themes.lightTheme,
-        debugShowCheckedModeBanner: false,
-         scaffoldMessengerKey: kSnackbarKey,
-         routeInformationParser: _appRouter.defaultRouteParser(includePrefixMatches: true), routerDelegate: _appRouter.delegate(),
+      child: prv.MultiProvider(
+        providers: [
+          prv.Provider<PaymentProvider>(
+            create: (context) => paymentProvider,
+          )
+        ],
+        child: MaterialApp.router(
+          theme: Themes.lightTheme,
+          debugShowCheckedModeBanner: false,
+          scaffoldMessengerKey: kSnackbarKey,
+          routeInformationParser:
+              _appRouter.defaultRouteParser(includePrefixMatches: true),
+          routerDelegate: _appRouter.delegate(),
+        ),
       ),
     );
   }

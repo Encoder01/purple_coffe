@@ -49,6 +49,7 @@ dependencies:
   auto_route: ^4.0.1
   dartz: ^0.10.1
   data_connection_checker: ^0.3.4
+  firebase_dart: ^1.0.10+1
   firebase_core: ^1.17.1
   cloud_firestore: ^3.1.17
   google_sign_in: ^5.3.2
