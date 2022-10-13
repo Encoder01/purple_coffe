@@ -30,6 +30,26 @@ class PaymentProvider extends ChangeNotifier {
       },
     );
   }
+  Future<void> showOneCredit() async {
+    final result = await showOneCreditUseCase.call(NoParams());
+    result.fold(
+          (failure) => errorState(),
+          (success) {
+        print(success.identifier);
+        //notifyListeners();
+      },
+    );
+  }
+  Future<void> showThreeCredit() async {
+    final result = await showThreeCreditUseCase.call(NoParams());
+    result.fold(
+          (failure) => errorState(),
+          (success) {
+        print("success");
+        notifyListeners();
+      },
+    );
+  }
 
   void errorState() {
     notifyListeners();

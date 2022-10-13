@@ -8,6 +8,42 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:828924547243:android:ca76003c9b5006c70ce7ee",
+        "android_client_info": {
+          "package_name": "com.example.untitled"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "828924547243-vpoqnh79uq00tllvdijjca725hbffuon.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-b_RoUe6s0SIjztDAXBK_nhoIpa7X8eg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "828924547243-vpoqnh79uq00tllvdijjca725hbffuon.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "828924547243-r3br8b5474d6s77uhnuma2ql1vlqul5v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ttan.purplecoffe.purpleCoffe"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:828924547243:android:31c5efdd42fc5cf40ce7ee",
         "android_client_info": {
           "package_name": "com.ttan.purplecoffe.purple_coffe"
@@ -38,6 +74,13 @@
             {
               "client_id": "828924547243-vpoqnh79uq00tllvdijjca725hbffuon.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "828924547243-r3br8b5474d6s77uhnuma2ql1vlqul5v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ttan.purplecoffe.purpleCoffe"
+              }
             }
           ]
         }

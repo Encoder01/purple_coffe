@@ -12,6 +12,6 @@ class ShowThreeCreditUseCase extends UseCase<Package, NoParams> {
 
   @override
   Future<Either<Failure, Package >> call(NoParams params) async {
-    return  await paymentRepository.showOneCreditPaywall();
+    return  await paymentRepository.showThreeCreditPaywall();
   }
 }

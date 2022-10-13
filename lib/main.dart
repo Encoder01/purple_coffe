@@ -16,6 +16,7 @@ import 'package:purple_coffe/core/models/app_env.dart';
 import 'package:purple_coffe/injection_container.dart' as di;
 import 'package:provider/provider.dart' as prv;
 import 'core/constants/app_constants.dart';
+import 'firebase_options.dart';
 
 const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('ic_launcher');
@@ -26,7 +27,9 @@ void main() async {
     android: initializationSettingsAndroid,
   );
   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await di.init();
   runApp(const SplashScreen());
 }
@@ -39,15 +42,17 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   Future<String> initialization() async {
+    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
     AppEnvironment.appEnv = await getEnvironment() ?? AppEnv.empty();
-    await loadSound("assets/sounds/sent_fortune.m4a");
-    await pool.play(kSoundId!).whenComplete(() => null);
+     loadSound("assets/sounds/sent_fortune.m4a");
+     pool.play(kSoundId!).whenComplete(() => null);
     await Future.delayed(const Duration(seconds: 2));
 
-    await OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    await OneSignal.shared.setAppId(koneSignalKey);
+     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+     OneSignal.shared.setAppId(koneSignalKey);
 
-    await OneSignal.shared
+     OneSignal.shared
         .promptUserForPushNotificationPermission()
         .then((accepted) {
       print("Accepted permission: $accepted");

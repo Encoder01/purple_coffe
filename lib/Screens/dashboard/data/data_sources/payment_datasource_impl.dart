@@ -1,19 +1,30 @@
+import 'dart:io' show Platform;
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:purchases_flutter/models/package_wrapper.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purple_coffe/Screens/dashboard/data/data_sources/payment_datasource.dart';
 
 class PaymentDataSourceImpl implements PaymentDataSource {
-  PurchaserInfo? purchaserInfo;
+  CustomerInfo? purchaserInfo;
 
   @override
   Future<void> initPlatformState() async {
     try {
       await Purchases.setDebugLogsEnabled(true);
-      await Purchases.setup("HijTHhuTwuEftAnokGTovRStlVfnBcpZ");
-      purchaserInfo = await Purchases.getPurchaserInfo();
+
+      PurchasesConfiguration configuration;
+      if (Platform.isAndroid) {
+        configuration = PurchasesConfiguration("goog_LFAHbMnxYTLZbPMWFrdHgXFnuWr");
+      } else {
+        configuration = PurchasesConfiguration("public_ios_sdk_key");
+      }
+      await Purchases.configure(configuration);
+      purchaserInfo = await Purchases.getCustomerInfo();
+      if (kDebugMode) {
+        print(purchaserInfo.toString());
+      }
     } catch (e) {
       throw e.toString();
     }
@@ -24,9 +35,11 @@ class PaymentDataSourceImpl implements PaymentDataSource {
     try {
       purchaserInfo = await Purchases.purchasePackage(package);
     } on PlatformException catch (e) {
-      var errorCode = PurchasesErrorHelper.getErrorCode(e);
+      final errorCode = PurchasesErrorHelper.getErrorCode(e);
       if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(e.message!)));
+        Scaffold.of(context).showBottomSheet(
+          (context) => Text(e.message.toString()),
+        );
       }
     }
   }
@@ -44,20 +57,22 @@ class PaymentDataSourceImpl implements PaymentDataSource {
   @override
   Future<void> restoreTransact(BuildContext context) async {
     try {
-      purchaserInfo = await Purchases.restoreTransactions();
-      print("*************************************");
+      purchaserInfo = await Purchases.restorePurchases();
+      if (kDebugMode) {
+        print("*************************************");
+      }
       if (purchaserInfo!.allPurchasedProductIdentifiers.isNotEmpty) {
         showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
-                content: Text("restoresucss"),
+                content: const Text("restoresucss"),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text("Ok"),
+                    child: const Text("Ok"),
                   ),
                 ],
               );
@@ -67,14 +82,14 @@ class PaymentDataSourceImpl implements PaymentDataSource {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text("sorry"),
-                content: Text("restorefail"),
+                title: const Text("sorry"),
+                content: const Text("restorefail"),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: Text("ok"),
+                    child: const Text("ok"),
                   ),
                 ],
               );
@@ -103,8 +118,9 @@ class PaymentDataSourceImpl implements PaymentDataSource {
   @override
   Future<Package> showOneCreditPaywall() async {
     try {
-      Offerings offerings = await Purchases.getOfferings();
-      final currentOneCreditProduct = offerings.current!.getPackage("credits_coffe_1_package");
+      final offerings = await Purchases.getOfferings();
+      final currentOneCreditProduct =
+          offerings.current!.getPackage("credits_coffe_1_package");
       return currentOneCreditProduct!;
     } catch (e) {
       throw UnimplementedError();
@@ -114,8 +130,9 @@ class PaymentDataSourceImpl implements PaymentDataSource {
   @override
   Future<Package> showThreeCreditPaywall() async {
     try {
-      Offerings offerings = await Purchases.getOfferings();
-      final currentThreeCreditProduct = offerings.current!.getPackage("credits_coffe_3_package");
+      final offerings = await Purchases.getOfferings();
+      final currentThreeCreditProduct =
+          offerings.current!.getPackage("credits_coffe_3_package");
       return currentThreeCreditProduct!;
     } catch (e) {
       throw UnimplementedError();

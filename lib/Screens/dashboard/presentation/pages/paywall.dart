@@ -65,7 +65,7 @@ class Paywall extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Provider.of<PaymentProvider>(context,listen: false).initPlatform();
+              Provider.of<PaymentProvider>(context,listen: false).showOneCredit();
             },
             style: ElevatedButton.styleFrom(
                 primary: Colors.transparent,
