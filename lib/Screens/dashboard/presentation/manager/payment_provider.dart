@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/payment/init_pay_usecase.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/payment/make_pay_usecase.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/payment/onecredit_pay_usecase.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/use_cases/payment/threecredit_pay_usecase.dart';
+import 'package:purple_coffe/core/params/make_pay_params.dart';
 import 'package:purple_coffe/core/params/no_params.dart';
 
-class PaymentProvider extends ChangeNotifier {
+class PaymentProvider {
   InitPayUseCase initPayUseCase;
   MakePayUseCase makePayUseCase;
   ShowOneCreditUseCase showOneCreditUseCase;
   ShowThreeCreditUseCase showThreeCreditUseCase;
-
+  CustomerInfo? purchaserInfo;
   PaymentProvider(
     this.initPayUseCase,
     this.showThreeCreditUseCase,
@@ -25,33 +27,44 @@ class PaymentProvider extends ChangeNotifier {
     result.fold(
       (failure) => errorState(),
       (success) {
-        print("success");
-        notifyListeners();
+        purchaserInfo = success;
       },
     );
   }
-  Future<void> showOneCredit() async {
+
+  Future<Package?> showOneCredit() async {
     final result = await showOneCreditUseCase.call(NoParams());
-    result.fold(
-          (failure) => errorState(),
-          (success) {
-        print(success.identifier);
-        //notifyListeners();
+    return result.fold(
+      (failure) => null,
+      (success) {
+        return success;
       },
     );
   }
-  Future<void> showThreeCredit() async {
+
+  Future<Package?> showThreeCredit() async {
     final result = await showThreeCreditUseCase.call(NoParams());
-    result.fold(
-          (failure) => errorState(),
-          (success) {
-        print("success");
-        notifyListeners();
+    return result.fold(
+      (failure) => null,
+      (success) {
+
+       return success;
+      },
+    );
+  }
+
+  Future<CustomerInfo?> makePurchase(Package package, BuildContext context) async {
+    final result = await makePayUseCase.call(MakePayParams(package, context));
+    return result.fold(
+      (failure) => null,
+      (success) {
+       return success;
       },
     );
   }
 
   void errorState() {
-    notifyListeners();
+    print('error');
+
   }
 }

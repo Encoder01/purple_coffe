@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:purchases_flutter/models/customer_info_wrapper.dart';
 import 'package:purchases_flutter/models/package_wrapper.dart';
 import 'package:purple_coffe/Screens/dashboard/data/data_sources/payment_datasource.dart';
 import 'package:purple_coffe/Screens/dashboard/domain/repositories/payment_repository.dart';
@@ -11,7 +12,7 @@ class PaymentRepositoyryImpl implements PaymentRepository {
   PaymentRepositoyryImpl(this._paymentDataSource);
 
   @override
-  Future<Either<Failure, void>> initPlatformState() async {
+  Future<Either<Failure, CustomerInfo?>> initPlatformState() async {
     try {
       final init = await _paymentDataSource.initPlatformState();
       return Right(init);
@@ -21,7 +22,7 @@ class PaymentRepositoyryImpl implements PaymentRepository {
   }
 
   @override
-  Future<Either<Failure, void>> makePurchases(
+  Future<Either<Failure, CustomerInfo?>> makePurchases(
       Package package, BuildContext context) async {
     try {
       final makePurc = await _paymentDataSource.makePurchases(package, context);

@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:purchases_flutter/models/customer_info_wrapper.dart';
+import 'package:purple_coffe/Screens/dashboard/domain/repositories/dashobard_firestore_repository.dart';
+import 'package:purple_coffe/Screens/dashboard/presentation/manager/payment_provider.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/user_bloc.dart';
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/config/routes/router.gr.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
+import 'package:purple_coffe/injection_container.dart' as di;
+import 'package:provider/provider.dart';
+
 
 class DashBoard extends StatefulWidget {
   DashBoard(this.appUserModel);
@@ -18,17 +24,50 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  final dasboardController = di.serviceLocator<DashboardFirestoreRepository>();
   @override
   void initState() {
     BlocProvider.of<UserBloc>(context).add(GetUser(widget.appUserModel.uid!));
     OneSignal.shared.setEmail(email: widget.appUserModel.email!);
+    initPayment(widget.appUserModel,Provider.of<PaymentProvider>(context, listen: false).purchaserInfo);
     super.initState();
   }
 
+  Future initPayment(AppUserModel appUserModel,CustomerInfo? customerInfo) async {
+    List<dynamic> tempListForCredit = appUserModel.availableCredit!.toList();
+    customerInfo!.nonSubscriptionTransactions.forEach((element) {
+      bool isEqueal = false;
+      appUserModel.availableCredit?.forEach((crediId) {
+        if (crediId['credit_id'] == element.revenueCatIdentifier) {
+          isEqueal = true;
+        }
+      });
+      if (!isEqueal) {
+        print(element);
+        tempListForCredit.add({
+          'credit_count': element.productIdentifier.contains('one') ? 1 : 3,
+          'credit_id': element.revenueCatIdentifier
+        });
+      }
+    });
+    BlocProvider.of<UserBloc>(context).add(
+      SetUser(
+        AppUserModel(
+          uid: appUserModel.uid,
+          fTellId: appUserModel.fTellId,
+          name: appUserModel.name,
+          email: appUserModel.email,
+          sex: appUserModel.sex,
+          birthDate: appUserModel.birthDate,
+          availableCredit: tempListForCredit,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: Themes.gradientColors,

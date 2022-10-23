@@ -7,6 +7,7 @@ class AppUserModel extends Equatable {
   String? sex;
   String? birthDate;
   List<String>? fTellId;
+  List<dynamic>? availableCredit;
 
   AppUserModel({
     required this.uid,
@@ -15,6 +16,7 @@ class AppUserModel extends Equatable {
     required this.sex,
     required this.birthDate,
     required this.fTellId,
+    required this.availableCredit,
   });
 
   factory AppUserModel.empty() {
@@ -25,6 +27,9 @@ class AppUserModel extends Equatable {
       sex: '',
       birthDate: "01/01/1980",
       fTellId: const [''],
+      availableCredit: const [
+        {'credit_count': 0, 'credit_id': '0'}
+      ],
     );
   }
 
@@ -34,6 +39,7 @@ class AppUserModel extends Equatable {
     email = json['user_email'] as String;
     sex = json['user_sex'] as String;
     birthDate = json['user_birth_date'] as String;
+    availableCredit = json['available_credit'] as List<dynamic>;
     fTellId = json['user_fortune_id'].cast<String>() as List<String>;
   }
 
@@ -45,9 +51,10 @@ class AppUserModel extends Equatable {
     data['user_sex'] = sex;
     data['user_birth_date'] = birthDate;
     data['user_fortune_id'] = fTellId;
+    data['available_credit'] = availableCredit;
     return data;
   }
 
   @override
-  List<Object> get props => [uid!, name!, birthDate!, fTellId!, ];
+  List<Object> get props => [uid!, name!, birthDate!, fTellId!, availableCredit!];
 }

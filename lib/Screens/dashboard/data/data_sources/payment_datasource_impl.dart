@@ -10,30 +10,30 @@ class PaymentDataSourceImpl implements PaymentDataSource {
   CustomerInfo? purchaserInfo;
 
   @override
-  Future<void> initPlatformState() async {
+  Future<CustomerInfo?> initPlatformState() async {
     try {
       await Purchases.setDebugLogsEnabled(true);
 
       PurchasesConfiguration configuration;
       if (Platform.isAndroid) {
-        configuration = PurchasesConfiguration("goog_LFAHbMnxYTLZbPMWFrdHgXFnuWr");
+        configuration =
+            PurchasesConfiguration("goog_LFAHbMnxYTLZbPMWFrdHgXFnuWr");
       } else {
         configuration = PurchasesConfiguration("public_ios_sdk_key");
       }
       await Purchases.configure(configuration);
       purchaserInfo = await Purchases.getCustomerInfo();
-      if (kDebugMode) {
-        print(purchaserInfo.toString());
-      }
+      return purchaserInfo;
     } catch (e) {
-      throw e.toString();
+      return null;
     }
   }
 
   @override
-  Future<void> makePurchases(Package package, BuildContext context) async {
+  Future<CustomerInfo?> makePurchases(Package package, BuildContext context) async {
     try {
       purchaserInfo = await Purchases.purchasePackage(package);
+      return purchaserInfo;
     } on PlatformException catch (e) {
       final errorCode = PurchasesErrorHelper.getErrorCode(e);
       if (errorCode != PurchasesErrorCode.purchaseCancelledError) {
@@ -41,6 +41,8 @@ class PaymentDataSourceImpl implements PaymentDataSource {
           (context) => Text(e.message.toString()),
         );
       }
+      print('Fail:$e');
+      return null;
     }
   }
 

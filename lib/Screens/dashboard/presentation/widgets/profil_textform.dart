@@ -27,7 +27,7 @@ class ProfilTextFormWidget extends StatelessWidget {
           ),
           TextFormField(
             controller: controller,
-            readOnly: formHint=="email",
+            readOnly: formHint=="email" || formHint=='kredin',
             style:const TextStyle(
               color:Colors.white,
               fontSize: 16,

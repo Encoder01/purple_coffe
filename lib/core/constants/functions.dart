@@ -98,7 +98,7 @@ Future<ImageSource?> dialogCameraOrGallery(BuildContext context) async {
   return source;
 }
 
-Future<bool> busyDialog(BuildContext context) async {
+Future<bool> busyDialog(BuildContext context,String title) async {
   bool sendFortune = false;
   await showDialog(
     context: context,
@@ -113,7 +113,7 @@ Future<bool> busyDialog(BuildContext context) async {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Due to intensity experienced your coffe reading will be queued. If you approve, please click below.",
+                title,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Themes.mainColor, fontSize: 18),
               ),

@@ -3,8 +3,7 @@ import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/core/constants/firebase_constants.dart';
 import 'dashboard_firestore_datasource.dart';
 
-class DashboardFirestoreDatasourceImplementation
-    implements DashboardFirestoreDatasource {
+class DashboardFirestoreDatasourceImplementation implements DashboardFirestoreDatasource {
   @override
   Future<List<FortuneTells>> getMyFortunesTell(String userId) async {
     final doc = await docFal.get();
@@ -36,8 +35,7 @@ class DashboardFirestoreDatasourceImplementation
           userFortuneId.add(fortuneTellsFrom.fortuneId!);
         }
       }
-      final userDoc =
-          await fireStore.collection("users").doc(fortuneTells.userId).get();
+      final userDoc = await fireStore.collection("users").doc(fortuneTells.userId).get();
       final userModel = AppUserModel.fromJson(userDoc.data()!);
       await fireStore.collection("users").doc(fortuneTells.userId).set(
             AppUserModel(
@@ -47,6 +45,7 @@ class DashboardFirestoreDatasourceImplementation
               sex: userModel.sex,
               birthDate: userModel.birthDate,
               fTellId: userFortuneId,
+              availableCredit: userModel.availableCredit,
             ).toJson(),
           );
       return fortuneDoc;
@@ -71,18 +70,18 @@ class DashboardFirestoreDatasourceImplementation
         }
       }
 
-      final userDoc =
-          await fireStore.collection("users").doc(fortuneTells.userId).get();
+      final userDoc = await fireStore.collection("users").doc(fortuneTells.userId).get();
       final userModel = AppUserModel.fromJson(userDoc.data()!);
       await fireStore.collection("users").doc(fortuneTells.userId).set(
             AppUserModel(
-                uid: userModel.uid,
-                name: userModel.name,
-                email: userModel.email,
-                sex: userModel.sex,
-                birthDate: userModel.birthDate,
-                fTellId: fortuneDocId,
-               ).toJson(),
+              uid: userModel.uid,
+              name: userModel.name,
+              email: userModel.email,
+              sex: userModel.sex,
+              birthDate: userModel.birthDate,
+              fTellId: fortuneDocId,
+              availableCredit: userModel.availableCredit,
+            ).toJson(),
           );
       return fortuneDoc;
     } catch (e) {
@@ -127,8 +126,7 @@ class DashboardFirestoreDatasourceImplementation
         }
       }
 
-      final userDoc =
-          await fireStore.collection("users").doc(fortuneId.userId).get();
+      final userDoc = await fireStore.collection("users").doc(fortuneId.userId).get();
       final userModel = AppUserModel.fromJson(userDoc.data()!);
       await fireStore.collection("users").doc(fortuneId.userId).set(
             AppUserModel(
@@ -137,6 +135,7 @@ class DashboardFirestoreDatasourceImplementation
               email: userModel.email,
               sex: userModel.sex,
               birthDate: userModel.birthDate,
+              availableCredit: userModel.availableCredit,
               fTellId: fortuneDocId,
             ).toJson(),
           );

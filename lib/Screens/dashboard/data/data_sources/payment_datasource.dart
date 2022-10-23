@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 abstract class PaymentDataSource {
-  Future<void> initPlatformState();
+  Future<CustomerInfo?> initPlatformState();
 
   Future<bool> resetUser();
 
@@ -13,5 +13,5 @@ abstract class PaymentDataSource {
 
   Future<Package> showThreeCreditPaywall();
 
-  Future<void> makePurchases(Package package, BuildContext context);
+  Future<CustomerInfo?> makePurchases(Package package, BuildContext context);
 }

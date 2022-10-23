@@ -16,6 +16,7 @@ class ProfilePage extends StatelessWidget {
   TextEditingController? textEditingController2;
   TextEditingController? textEditingController3;
   TextEditingController? textEditingController4;
+  TextEditingController? availableCredit;
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +55,15 @@ class ProfilePage extends StatelessWidget {
       ),
       body: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          if(state is UserLoaded){
-            textEditingController1 =
-                TextEditingController(text: state.userProfile.name);
-            textEditingController2 =
-                TextEditingController(text: state.userProfile.email);
-            textEditingController3 =
-                TextEditingController(text: state.userProfile.sex);
-            textEditingController4 =
-                TextEditingController(text: state.userProfile.birthDate);
-
+          if (state is UserLoaded) {
+            textEditingController1 = TextEditingController(text: state.userProfile.name);
+            textEditingController2 = TextEditingController(text: state.userProfile.email);
+            textEditingController3 = TextEditingController(text: state.userProfile.sex);
+            textEditingController4 = TextEditingController(text: state.userProfile.birthDate);
+            int kredi=0;  state.userProfile.availableCredit?.forEach((element) {
+              kredi += element['credit_count'] as int;
+            });
+            availableCredit = TextEditingController(text:kredi.toString());
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -90,6 +90,11 @@ class ProfilePage extends StatelessWidget {
                     formHint: "dd/mm/YY",
                     controller: textEditingController4!,
                   ),
+                  ProfilTextFormWidget(
+                    formTitle: "Kullanılabilir Kredi",
+                    formHint: "kredin",
+                    controller: availableCredit!,
+                  ),
                   ElevatedButtonWidget(
                     onPress: () {
                       BlocProvider.of<UserBloc>(context).add(
@@ -101,6 +106,7 @@ class ProfilePage extends StatelessWidget {
                             email: appUserModel.email,
                             sex: textEditingController3!.text,
                             birthDate: textEditingController4!.text,
+                            availableCredit: appUserModel.availableCredit,
                           ),
                         ),
                       );
@@ -110,10 +116,9 @@ class ProfilePage extends StatelessWidget {
                 ],
               ),
             );
-          }else{
+          } else {
             return Container();
           }
-
         },
       ),
     );
