@@ -3,7 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:provider/provider.dart' as prv;
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/fortune_bloc.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/payment_provider.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/user_bloc.dart';
@@ -11,13 +13,13 @@ import 'package:purple_coffe/Screens/login/presentation/manager/login_bloc.dart'
 import 'package:purple_coffe/config/env/env.dart';
 import 'package:purple_coffe/config/routes/router.gr.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
+import 'package:purple_coffe/core/constants/app_constants.dart';
 import 'package:purple_coffe/core/constants/firebase_constants.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
 import 'package:purple_coffe/core/models/app_env.dart';
+import 'package:purple_coffe/firebase_options.dart';
 import 'package:purple_coffe/injection_container.dart' as di;
-import 'package:provider/provider.dart' as prv;
-import 'core/constants/app_constants.dart';
-import 'firebase_options.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const AndroidInitializationSettings initializationSettingsAndroid =
     AndroidInitializationSettings('ic_launcher');
@@ -43,19 +45,18 @@ class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   Future<String> initialization() async {
-    flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
+    flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
     AppEnvironment.appEnv = await getEnvironment() ?? AppEnv.empty();
-     loadSound("assets/sounds/sent_fortune.m4a");
-     pool.play(kSoundId!).whenComplete(() => null);
+    loadSound("assets/sounds/sent_fortune.m4a");
+    pool.play(kSoundId!).whenComplete(() => null);
     await Future.delayed(const Duration(seconds: 2));
 
-     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-     OneSignal.shared.setAppId(koneSignalKey);
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+    OneSignal.shared.setAppId(koneSignalKey);
 
-     OneSignal.shared
-        .promptUserForPushNotificationPermission()
-        .then((accepted) {
+    OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
       if (kDebugMode) {
         print("Accepted permission: $accepted");
       }
@@ -111,9 +112,11 @@ class MyApp extends StatelessWidget {
     di.serviceLocator(),
     di.serviceLocator(),
   );
-  MyApp(){
-   paymentProvider.initPlatform();
+
+  MyApp() {
+    paymentProvider.initPlatform();
   }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -153,8 +156,9 @@ class MyApp extends StatelessWidget {
           theme: Themes.lightTheme,
           debugShowCheckedModeBanner: false,
           scaffoldMessengerKey: kSnackbarKey,
-          routeInformationParser:
-              _appRouter.defaultRouteParser(includePrefixMatches: true),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          routeInformationParser: _appRouter.defaultRouteParser(includePrefixMatches: true),
           routerDelegate: _appRouter.delegate(),
         ),
       ),

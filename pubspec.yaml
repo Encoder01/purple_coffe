@@ -29,14 +29,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations: # Add this line
+    sdk: flutter
 
   #BASE_TOOLS
   flutter_platform_widgets: ^2.0.0
   flutter_hooks: ^0.18.5+1
   hive: ^2.2.3
   flutter_bloc: ^8.1.1
-  flutter_screenutil: ^5.5.4
+  flutter_screenutil: ^5.6.0
   soundpool: ^2.3.0
+  intl: ^0.17.0
   #FRONT_END_TOOLS
   cupertino_icons: ^1.0.5
   ionicons: ^0.2.1
@@ -46,27 +49,28 @@ dependencies:
   #BACK_END_TOOLS
   equatable: ^2.0.5
   get_it: ^7.2.0
-  auto_route: ^5.0.1
+  auto_route: ^5.0.2
   dartz: ^0.10.1
   data_connection_checker: ^0.3.4
   firebase_dart: ^1.0.11
-  firebase_core: ^1.24.0
-  cloud_firestore: ^3.5.1
+  firebase_core: ^2.1.1
+  cloud_firestore: ^4.0.3
   google_sign_in: ^5.4.2
-  firebase_auth: ^3.11.2
-  onesignal_flutter: ^3.4.1
-  flutter_local_notifications: ^12.0.1+1
-  purchases_flutter: ^4.3.0
+  firebase_auth: ^4.1.0
+  onesignal_flutter: ^3.4.2
+  flutter_local_notifications: ^12.0.3
+  purchases_flutter: ^4.3.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   lint: ^1.10.0
-  auto_route_generator: ^5.0.2
-  build_runner: ^2.3.0
+  auto_route_generator: ^5.0.3
+  build_runner: ^2.3.2
 
 flutter:
   uses-material-design: true
+  generate: true
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/

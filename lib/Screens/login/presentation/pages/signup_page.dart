@@ -6,7 +6,7 @@ import 'package:purple_coffe/Screens/login/presentation/manager/login_bloc.dart'
 import 'package:purple_coffe/Screens/login/presentation/widgets/body_header.dart';
 import 'package:purple_coffe/Screens/login/presentation/widgets/text_form.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -18,7 +18,7 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body: DecoratedBox(
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage("assets/images/arkaplan.png"),
@@ -44,8 +44,8 @@ class SignUpPage extends StatelessWidget {
                               const SizedBox(
                                 height: 15.0,
                               ),
-                              const Text(
-                                "Kayıt Ol",
+                                Text(
+                               '',
                                 style: TextStyle(color: Colors.yellow, fontSize: 17),
                               ),
                               const SizedBox(
@@ -82,7 +82,7 @@ class SignUpPage extends StatelessWidget {
                                           emailLink: inputPass);
                                       BlocProvider.of<LoginBloc>(context)
                                           .add(SignUpWithEmailPassword(loginDTO));
-                                      Future.delayed(Duration(seconds: 1), () {
+                                      Future.delayed(const Duration(seconds: 1), () {
                                         Navigator.of(context).pop();
                                       });
                                     } else {

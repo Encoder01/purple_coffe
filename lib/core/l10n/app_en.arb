@@ -1,0 +1,9 @@
+{
+ "@asd":{
+   "appTitle": "Demo App",
+  "appDescription": "{flutter} is Awesome",
+  "counterText": "You have pushed this button :",
+  "counter": "{count,plural, =0{0} =1{1 time} other{{count} times}}",
+  "counterButtonText": "Increment"
+ }
+}
