@@ -7,12 +7,13 @@ import 'package:purple_coffe/Screens/login/presentation/widgets/body_header.dart
 import 'package:purple_coffe/Screens/login/presentation/widgets/text_form.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class SignUpPage extends StatelessWidget {
   SignUpPage({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late String inputLogin="";
-  late String inputPass="";
+  late String inputLogin = "";
+  late String inputPass = "";
   late String inputPassConfirm;
 
   @override
@@ -44,26 +45,29 @@ class SignUpPage extends StatelessWidget {
                               const SizedBox(
                                 height: 15.0,
                               ),
-                                Text(
-                               '',
+                              Text(
+                                AppLocalizations.of(context)!.sign_create,
                                 style: TextStyle(color: Colors.yellow, fontSize: 17),
                               ),
                               const SizedBox(
                                 height: 15.0,
                               ),
-                              TextFormWidget("Email", false, (value) {
+                              TextFormWidget(AppLocalizations.of(context)!.sign_email, false,
+                                  (value) {
                                 inputLogin = value;
                               }),
                               const SizedBox(
                                 height: 15.0,
                               ),
-                              TextFormWidget("Password", true, (value) {
+                              TextFormWidget(AppLocalizations.of(context)!.sign_password, true,
+                                  (value) {
                                 inputPass = value;
                               }),
                               const SizedBox(
                                 height: 15.0,
                               ),
-                              TextFormWidget("Password", true, (value) {
+                              TextFormWidget(AppLocalizations.of(context)!.sign_password, true,
+                                  (value) {
                                 inputPassConfirm = value;
                               }),
                               const SizedBox(
@@ -86,11 +90,14 @@ class SignUpPage extends StatelessWidget {
                                         Navigator.of(context).pop();
                                       });
                                     } else {
-                                      showSnackBar("Lütfen aynı şifre giriniz");
+                                      showSnackBar(
+                                        AppLocalizations.of(context)!.sign_err_pass,
+                                      );
                                     }
                                   } else {
                                     showSnackBar(
-                                         "Lütfen geçerli bir email giriniz");
+                                      AppLocalizations.of(context)!.sign_err_mail,
+                                    );
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
@@ -103,10 +110,9 @@ class SignUpPage extends StatelessWidget {
                                       Size(MediaQuery.of(context).size.width * .4, 45),
                                 ),
                                 child: Text(
-                                  "Kayıt Yap",
+                                  AppLocalizations.of(context)!.sign_signup,
                                   style: TextStyle(
-                                      color: Colors.yellow.withOpacity(0.9),
-                                      fontSize: 16),
+                                      color: Colors.yellow.withOpacity(0.9), fontSize: 16),
                                 ),
                               ),
                             ],

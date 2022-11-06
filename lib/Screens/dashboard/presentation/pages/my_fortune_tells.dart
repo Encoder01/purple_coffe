@@ -9,6 +9,7 @@ import 'package:purple_coffe/Screens/dashboard/presentation/widgets/empty_fortun
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../config/routes/router.gr.dart';
 
@@ -48,7 +49,7 @@ class _MyFortuneTellsState extends State<MyFortuneTells>
               Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  "Gelen Kutusu",
+                  AppLocalizations.of(context)!.inbox_title,
                   style: TextStyle(
                       color: Themes.mainColor, fontWeight: FontWeight.bold),
                 ),
@@ -61,13 +62,13 @@ class _MyFortuneTellsState extends State<MyFortuneTells>
             tabs: [
               Tab(
                 child: Text(
-                  "Fallarım",
+                  AppLocalizations.of(context)!.inbox_tab1,
                   style: TextStyle(color: Themes.mainColor, fontSize: 15),
                 ),
               ),
               Tab(
                 child: Text(
-                  "Bildirimler",
+                  AppLocalizations.of(context)!.inbox_tab2,
                   style: TextStyle(color: Themes.mainColor, fontSize: 15),
                 ),
               ),
@@ -119,8 +120,8 @@ class _MyFortuneTellsState extends State<MyFortuneTells>
                                 minVerticalPadding: 5,
                                 title: Text(
                                   !fortuneIndex.isDone!
-                                      ? "Kahve Falın Hazırlanıyor"
-                                      : "Kahve Falın",
+                                      ?  AppLocalizations.of(context)!.inbox_fortune_progress
+                                      :  AppLocalizations.of(context)!.inbox_fortune_ready,
                                   style: TextStyle(
                                     color: Themes.mainColor,
                                     fontWeight: FontWeight.w600,

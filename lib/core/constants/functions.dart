@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
-
-import 'app_constants.dart';
+import 'package:purple_coffe/core/constants/app_constants.dart';
 
 void showSnackBar(String text) {
   final SnackBar snackBar = SnackBar(
@@ -50,12 +50,12 @@ Future<ImageSource?> dialogCameraOrGallery(BuildContext context) async {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Ionicons.camera),
-                  SizedBox(
+                children: [
+                  const Icon(Ionicons.camera),
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text("Camera"),
+                  Text(AppLocalizations.of(context)!.camera),
                 ],
               ),
             ),
@@ -70,12 +70,12 @@ Future<ImageSource?> dialogCameraOrGallery(BuildContext context) async {
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
-                  Icon(Ionicons.albums),
-                  SizedBox(
+                children: [
+                  const Icon(Ionicons.albums),
+                  const SizedBox(
                     width: 10,
                   ),
-                  Text("Gallery"),
+                  Text(AppLocalizations.of(context)!.gallery),
                 ],
               ),
             ),
@@ -85,7 +85,7 @@ Future<ImageSource?> dialogCameraOrGallery(BuildContext context) async {
                 Navigator.pop(_);
               },
               child: Text(
-                "Cancel",
+                AppLocalizations.of(context)!.cancel,
                 style: TextStyle(color: Themes.mainColor, fontSize: 15),
               ),
             )
@@ -98,57 +98,73 @@ Future<ImageSource?> dialogCameraOrGallery(BuildContext context) async {
   return source;
 }
 
-Future<bool> busyDialog(BuildContext context,String title) async {
+Future<bool> busyDialog(BuildContext context, String title, bool isOk) async {
   bool sendFortune = false;
   await showDialog(
     context: context,
     builder: (_) => AlertDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       backgroundColor: Themes.gradientColors.last,
-      content: SizedBox(
-        height: 200,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                title,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Themes.mainColor, fontSize: 18),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                sendFortune = true;
-                Navigator.pop(_);
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width * .5, 40),
-                primary: Colors.purple,
-              ),
-              child: Text(
-                "Yes",
-                style: TextStyle(color: Themes.mainColor),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                sendFortune = false;
-                Navigator.pop(_);
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(MediaQuery.of(context).size.width * .5, 40),
-                primary: Colors.purple,
-              ),
-              child: Text(
-                "No",
-                style: TextStyle(color: Themes.mainColor),
-              ),
-            ),
-          ],
+      content: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          title,
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Themes.mainColor, fontSize: 18),
         ),
       ),
+      actions: isOk
+          ? [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pop(_);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(MediaQuery.of(context).size.width * .5, 40),
+                    primary: Colors.purple,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.ok,
+                    style: TextStyle(color: Themes.mainColor),
+                  ),
+                ),
+              ),
+            ]
+          : [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    sendFortune = true;
+                    Navigator.pop(_);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(MediaQuery.of(context).size.width * .5, 40),
+                    primary: Colors.purple,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.yes,
+                    style: TextStyle(color: Themes.mainColor),
+                  ),
+                ),
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    sendFortune = false;
+                    Navigator.pop(_);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(MediaQuery.of(context).size.width * .5, 40),
+                    primary: Colors.purple,
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context)!.no,
+                    style: TextStyle(color: Themes.mainColor),
+                  ),
+                ),
+              ),
+            ],
     ),
   );
   return sendFortune;

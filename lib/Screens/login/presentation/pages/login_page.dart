@@ -9,6 +9,7 @@ import 'package:purple_coffe/Screens/login/presentation/widgets/text_form.dart';
 import 'package:purple_coffe/config/routes/router.gr.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 const BodyHeader(),
                 bodyForm(),
                 Text(
-                  "OR",
+                  AppLocalizations.of(context)!.sign_or.toUpperCase(),
                   style: TextStyle(
                     color: Themes.mainColor,
                     fontSize: 21,
@@ -69,13 +70,13 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height * .02,
             ),
-            TextFormWidget("Email", false, (value) {
+            TextFormWidget(AppLocalizations.of(context)!.sign_email, false, (value) {
               inputLogin = value;
             }),
             SizedBox(
               height: MediaQuery.of(context).size.height * .02,
             ),
-            TextFormWidget("Password", true, (value) {
+            TextFormWidget(AppLocalizations.of(context)!.sign_password, true, (value) {
               inputPass = value;
             }),
             SizedBox(
@@ -94,10 +95,10 @@ class _LoginPageState extends State<LoginPage> {
                     BlocProvider.of<LoginBloc>(context)
                         .add(LogInWithEmailPassword(loginDTO));
                   } else {
-                    showSnackBar("Geçerli Bir Şifre Giriniz.");
+                    showSnackBar(AppLocalizations.of(context)!.sign_err_pass2);
                   }
                 } else {
-                  showSnackBar( "Geçerli Bir Mail Giriniz.");
+                  showSnackBar( AppLocalizations.of(context)!.sign_err_mail);
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -109,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                 minimumSize: Size(MediaQuery.of(context).size.width * .4, 45),
               ),
               child: Text(
-                "Login",
+                AppLocalizations.of(context)!.sign_login,
                 style: TextStyle(color: Themes.mainColor, fontSize: 15),
               ),
             ),
@@ -121,11 +122,11 @@ class _LoginPageState extends State<LoginPage> {
                   if (emailValid) {
                     BlocProvider.of<LoginBloc>(context).add(ResPassMail(inputLogin!));
                   } else {
-                    showSnackBar("Geçerli Bir Mail Giriniz.");
+                    showSnackBar(AppLocalizations.of(context)!.sign_err_mail);
                   }
                 },
                 child: Text(
-                  "Forgot my password",
+                  AppLocalizations.of(context)!.sign_forget,
                   style: TextStyle(color: Themes.mainColor, fontSize: 13),
                 ))
           ],
@@ -141,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
           height: MediaQuery.of(context).size.height * .04,
         ),
         Text(
-          "Create Your Account",
+          AppLocalizations.of(context)!.sign_create,
           style: TextStyle(color: Themes.mainColor, fontSize: 16),
         ),
         SizedBox(
@@ -172,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 10,
               ),
               Text(
-                "Continue With Google",
+                AppLocalizations.of(context)!.sign_google,
                 style: TextStyle(color: Themes.mainColor, fontSize: 15),
               ),
             ],
@@ -206,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: 10,
               ),
               Text(
-                "Continue With Email",
+                AppLocalizations.of(context)!.sign_mail,
                 style: TextStyle(color: Themes.mainColor, fontSize: 15),
               ),
             ],
@@ -218,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
         Padding(
           padding: const EdgeInsets.all(3.0),
           child: Text(
-            "By registering or logging in, I declare that I have read and accepted the Terms of Use and Privacy.",
+            AppLocalizations.of(context)!.sign_desc,
             textAlign: TextAlign.center,
             style: TextStyle(color: Themes.mainColor, fontSize: 12),
           ),

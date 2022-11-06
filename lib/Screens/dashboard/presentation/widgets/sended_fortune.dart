@@ -4,6 +4,7 @@ import 'package:purple_coffe/config/env/env.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
 
 import '../../../../core/constants/app_constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SendedFortune extends StatelessWidget {
   const SendedFortune({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class SendedFortune extends StatelessWidget {
                   Padding(
                     padding:   EdgeInsets.all(MediaQuery.of(context).size.height * .03),
                     child: Image.asset(
-                      "assets/logo/title_en.png",
+                      AppLocalizations.of(context)!.title_path,
                       fit: BoxFit.fitHeight,
                     ),
                   ),
@@ -46,7 +47,7 @@ class SendedFortune extends StatelessWidget {
                   Padding(
                     padding:   EdgeInsets.all(MediaQuery.of(context).size.height * .05),
                     child: Text(
-                      "We got your order! Your coffe reading will be sent to you within $fortuneTime hours Thank You!",
+                     AppLocalizations.of(context)!.sended_desc(fortuneTime),
                       textAlign: TextAlign.center,
                       style:  TextStyle(
                         fontSize: 21,
@@ -60,7 +61,7 @@ class SendedFortune extends StatelessWidget {
                   ),
                     Padding(
                       padding:   EdgeInsets.all(MediaQuery.of(context).size.height * .05),
-                      child: Text("Thank you for choosing the purple coffe cup.",
+                      child: Text(AppLocalizations.of(context)!.sended_thx,
                       textAlign: TextAlign.center,
                       style:  TextStyle(
                         fontSize: 21,

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BodyHeader extends StatelessWidget {
   const BodyHeader({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class BodyHeader extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Image.asset(
-            "assets/logo/title_en.png",
+            AppLocalizations.of(context)!.title_path,
             fit: BoxFit.fitHeight,
           ),
         ),

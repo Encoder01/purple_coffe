@@ -7,6 +7,7 @@ import 'package:purple_coffe/Screens/dashboard/presentation/widgets/profil_textf
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/Screens/login/presentation/manager/login_bloc.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatelessWidget {
   ProfilePage(this.appUserModel);
@@ -28,7 +29,7 @@ class ProfilePage extends StatelessWidget {
         title: Padding(
           padding: const EdgeInsets.only(top: 8.0),
           child: Text(
-            "Profilim",
+            AppLocalizations.of(context)!.profile_title,
             style: TextStyle(
               color: Themes.mainColor,
               fontSize: 28,
@@ -44,7 +45,7 @@ class ProfilePage extends StatelessWidget {
               OneSignal.shared.logoutEmail();
             },
             child: Text(
-              "Çıkış Yap",
+              AppLocalizations.of(context)!.profile_logout,
               style: TextStyle(
                 color: Themes.mainColor,
                 fontSize: 15,
@@ -71,27 +72,27 @@ class ProfilePage extends StatelessWidget {
                     height: 30,
                   ),
                   ProfilTextFormWidget(
-                    formTitle: "Ad Soyad",
+                    formTitle: AppLocalizations.of(context)!.profile_name,
                     formHint: "",
                     controller: textEditingController1!,
                   ),
                   ProfilTextFormWidget(
-                    formTitle: "E-Posta Adresi",
+                    formTitle: AppLocalizations.of(context)!.profile_mail,
                     controller: textEditingController2!,
                     formHint: 'email',
                   ),
                   ProfilTextFormWidget(
-                    formTitle: "Cinsiyet",
+                    formTitle: AppLocalizations.of(context)!.profile_sex,
                     formHint: "",
                     controller: textEditingController3!,
                   ),
                   ProfilTextFormWidget(
-                    formTitle: "Doğum Tarihi",
+                    formTitle: AppLocalizations.of(context)!.profile_date,
                     formHint: "dd/mm/YY",
                     controller: textEditingController4!,
                   ),
                   ProfilTextFormWidget(
-                    formTitle: "Kullanılabilir Kredi",
+                    formTitle: AppLocalizations.of(context)!.profile_credit,
                     formHint: "kredin",
                     controller: availableCredit!,
                   ),
@@ -111,7 +112,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                       );
                     },
-                    text: "Güncelle",
+                    text: AppLocalizations.of(context)!.profile_button,
                   )
                 ],
               ),

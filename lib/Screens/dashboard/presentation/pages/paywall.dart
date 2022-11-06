@@ -9,6 +9,7 @@ import 'package:purple_coffe/Screens/dashboard/presentation/manager/user_bloc.da
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
 import 'package:purple_coffe/injection_container.dart' as di;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Paywall extends StatefulWidget {
   const Paywall({Key? key}) : super(key: key);
@@ -69,12 +70,12 @@ class _PaywallState extends State<Paywall> {
             SizedBox(
               height: MediaQuery.of(context).size.height * .06,
             ),
-            Image.asset("assets/logo/title_tr.png"),
+            Image.asset(AppLocalizations.of(context)!.title_path),
             SizedBox(
               height: MediaQuery.of(context).size.height * .06,
             ),
             Text(
-              "Buy Credits",
+              AppLocalizations.of(context)!.payment_title,
               style: Themes.stylePurple,
             ),
             SizedBox(
@@ -133,7 +134,7 @@ class _PaywallState extends State<Paywall> {
                     side: BorderSide(color: Themes.mainColor),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                 child: Text(
-                  "Buy",
+                  AppLocalizations.of(context)!.payment_button,
                   style: Themes.stylePurple,
                 ),
               );

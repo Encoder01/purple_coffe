@@ -70,7 +70,7 @@ class SplashScreen extends StatelessWidget {
       future: initialization(),
       builder: (BuildContext context, AsyncSnapshot<String> state) {
         if (state.data == null) {
-          return Container(
+          return DecoratedBox(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: Themes.gradientColors,
@@ -92,7 +92,7 @@ class SplashScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset("assets/logo/title_en.png"),
+                  child: Image.asset(AppLocalizations.of(context)!.title_path),
                 ),
               ],
             ),

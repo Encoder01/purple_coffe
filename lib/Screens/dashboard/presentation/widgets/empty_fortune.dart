@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:purple_coffe/Screens/login/data/models/user.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../config/routes/router.gr.dart';
 import 'elevated_button.dart';
 
@@ -26,7 +26,7 @@ class EmptyFortuneWidget extends StatelessWidget {
           height: 20,
         ),
         Text(
-          "Gelen Kutusu Boş",
+          AppLocalizations.of(context)!.empty_inbox,
           style: TextStyle(
             color: Themes.mainColor,
             fontSize: 24,
@@ -36,7 +36,7 @@ class EmptyFortuneWidget extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-        ElevatedButtonWidget(onPress: () => context.router.navigate(SendFortuneTells(user: user)), text: "Fal Baktır")
+        ElevatedButtonWidget(onPress: () => context.router.navigate(SendFortuneTells(user: user)), text: AppLocalizations.of(context)!.empty_inbox2)
       ],
     );
   }

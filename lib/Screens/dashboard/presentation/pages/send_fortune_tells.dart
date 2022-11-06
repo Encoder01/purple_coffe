@@ -20,6 +20,7 @@ import 'package:purple_coffe/core/constants/functions.dart';
 import '../../../../injection_container.dart';
 import '../../domain/repositories/dashobard_firestore_repository.dart';
 import '../manager/user_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SendFortuneTells extends StatefulWidget {
   final AppUserModel user;
@@ -73,11 +74,10 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const SizedBox(),
-                  Image.asset("assets/logo/title_tr.png"),
+                  Image.asset(AppLocalizations.of(context)!.title_path),
                   Text(
-                    "Take a picture of the inside of your cup from four angles, "
-                    "as indicated in the photos, "
-                    "by turning your cup counterclockwise.",
+                    AppLocalizations.of(context)!.dashboard_desc,
+                    textAlign: TextAlign.center,
                     style: Themes.stylePurple,
                   ),
                   Padding(
@@ -203,7 +203,8 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                     ),
                   ),
                   Text(
-                    "You can now take a photo of your plate.",
+                    AppLocalizations.of(context)!.dashboard_desc2,
+                    textAlign: TextAlign.center,
                     style: Themes.stylePurple,
                   ),
                   ColoredContainer(
@@ -248,10 +249,8 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                           if (kredi > 0) {
                             if (AppEnvironment.appEnv.readedDailyFortune! >=
                                 AppEnvironment.appEnv.dailyFortune!) {
-                              final bool isSendFortune = await busyDialog(
-                                context,
-                                "Due to intensity experienced your coffe reading will be queued. If you approve, please click below.",
-                              );
+                              final bool isSendFortune = await busyDialog(context,
+                                  AppLocalizations.of(context)!.sended_err_busy, false);
                               if (isSendFortune) {
                                 sendFortune(userModel);
                               }
@@ -259,19 +258,17 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                               sendFortune(userModel);
                             }
                           } else {
-                            busyDialog(
-                              context,
-                              "Yeterli Krediniz bulunmamaktadır.",
-                            );
+                            busyDialog(context,
+                                AppLocalizations.of(context)!.sended_err_credit, true);
                           }
                         } else {
                           busyDialog(
-                              context, "Lütfen önce gerekli yerlerin fotoğrafını çekiniz.");
+                              context, AppLocalizations.of(context)!.sended_err_img, true);
                         }
                       });
                     },
                     child: Text(
-                      "Coffee Reading Send",
+                      AppLocalizations.of(context)!.dashboard_button,
                       style: Themes.stylePurple,
                     ),
                   )

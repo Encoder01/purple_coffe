@@ -10,6 +10,7 @@ import 'package:purple_coffe/Screens/dashboard/presentation/widgets/elevated_but
 import 'package:purple_coffe/config/env/env.dart';
 import 'package:purple_coffe/config/routes/router.gr.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FortuneDetail extends StatelessWidget {
   FortuneDetail(
@@ -51,8 +52,8 @@ class FortuneDetail extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Font Size",
+                             Text(
+                              AppLocalizations.of(context)!.fortune_font,
                               style:
                                   TextStyle(color: Colors.white, fontSize: 21),
                             ),
@@ -101,7 +102,7 @@ class FortuneDetail extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                "Kahve Falın",
+                AppLocalizations.of(context)!.fortune_title,
                 style: TextStyle(
                     fontSize: 21,
                     fontWeight: FontWeight.bold,
@@ -191,7 +192,7 @@ class FortuneDetail extends StatelessWidget {
                 !(fortuneTells.fortune_quest!["quest"].toString() == "null"),
             decoration: InputDecoration(
                 hintText: fortuneTells.fortune_quest!["quest"] == "null"
-                    ? "Sorun Var mı?"
+                    ?  AppLocalizations.of(context)!.fortune_ask_desc
                     : fortuneTells.fortune_quest!["quest"].toString(),
                 hintStyle: TextStyle(color: Themes.mainColor),
                 errorMaxLines: 10,
@@ -231,7 +232,7 @@ class FortuneDetail extends StatelessWidget {
                 valueListenable: fontsizeValue,
                 builder: (context, double value, child) {
                   return AutoSizeText(
-                    "Sorunuz: ",
+                    "${ AppLocalizations.of(context)!.fortune_ask}: ",
                     minFontSize: 12,
                     textAlign: TextAlign.start,
                     style:
@@ -274,7 +275,7 @@ class FortuneDetail extends StatelessWidget {
                 valueListenable: fontsizeValue,
                 builder: (context, double value, child) {
                   return AutoSizeText(
-                    "Cevap: ",
+                    "${AppLocalizations.of(context)!.fortune_answer}: ",
                     minFontSize: 12,
                     textAlign: TextAlign.start,
                     style:
@@ -298,7 +299,7 @@ class FortuneDetail extends StatelessWidget {
       );
     } else {
       return ElevatedButtonWidget(
-        text: "Soru Gönder",
+        text:  AppLocalizations.of(context)!.fortune_ask_button,
         onPress: () {
           BlocProvider.of<FortuneBloc>(context).add(
             SetFortunes(
