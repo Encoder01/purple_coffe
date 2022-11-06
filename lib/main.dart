@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +94,7 @@ class SplashScreen extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Image.asset(AppLocalizations.of(context)!.title_path),
+                  child: Image.asset(Platform.localeName.contains('tr')?'assets/logo/title_tr.png':'assets/logo/title_en.png'),
                 ),
               ],
             ),

@@ -1,7 +1,7 @@
 {
 	"dashboard_button": "Coffee Reading Send",
-	"dashboard_desc": "Take a picture of the inside of your\ncup from four angles, as indicated\nin the photos, by turning your cup\ncounterclockwise.",
-	"dashboard_desc2": "You can now take a photo of your\nplate.",
+	"dashboard_desc": "Take a picture of the inside of your cup from four angles, as indicated in the photos, by turning your cup counterclockwise.",
+	"dashboard_desc2": "You can now take a photo of your plate.",
 	"fortune_answer": "Answer",
 	"fortune_ask": "Your Ask",
 	"fortune_ask_button": "Send Ask",
@@ -40,7 +40,7 @@
 	"sign_err_mail": "Please enter a valid email",
 	"sign_err_pass": "Please enter the same password",
 	"no": "No",
-	"sended_desc": "We got your order! Your coffe reading will be sent to you within $fortuneTime hours Thank You!",
+	"sended_desc": "We got your order! Your coffe reading will be sent to you within {fortuneTime} hours Thank You!",
 	"@sended_desc": {
 		"placeholders": {
 			"fortuneTime": {

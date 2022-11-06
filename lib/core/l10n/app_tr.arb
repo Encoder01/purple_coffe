@@ -1,7 +1,7 @@
 {
 	"dashboard_button": "Gönder",
-	"dashboard_desc": "Fotoğraflarda belirtildiği gibi\nfincanınızı saat yönünün tersine\ndoğru çevirerek fincanınızın içinin\ndört açıdan fotoğrafını çekiniz.",
-	"dashboard_desc2": "Artık tabağınızın fotoğrafını\nçekebilirsiniz.",
+	"dashboard_desc": "Fotoğraflarda belirtildiği gibi fincanınızı saat yönünün tersine doğru çevirerek fincanınızın içinin dört açıdan fotoğrafını çekiniz.",
+	"dashboard_desc2": "Artık tabağınızın fotoğrafını çekebilirsiniz.",
 	"fortune_answer": "Cevap",
 	"fortune_ask": "Sorunuz",
 	"fortune_ask_button": "Soru Gönder",
@@ -40,7 +40,14 @@
 	"sign_err_mail": "Lütfen geçerli bir email giriniz",
 	"sign_err_pass": "Lütfen aynı şifreyi girin",
 	"no": "Hayır",
-	"sended_desc": "Siparişinizi aldık! Kahve fincanınız $fortuneTime saatleri içinde size gönderilecektir Teşekkürler!",
+	"sended_desc": "Kahve falınız {fortuneTime} saat içinde gönderilecektir. Bildirimlerinizi takip edebilirsiniz.",
+	"@sended_desc": {
+		"placeholders": {
+			"fortuneTime": {
+				"type": "int"
+			}
+		}
+	},
 	"sign_err_pass2": "Geçerli bir Parola girin.",
 	"yes": "Evet",
 	"sended_thx": "Mor kahve fincanını seçtiğiniz için teşekkür ederiz.",
