@@ -37,8 +37,7 @@
 	"sign_password": "Şifre",
 	"title_path": "assets/logo/title_tr.png",
 	"sign_signup": "Kaydol",
-	"sign_err_mail": "Lütfen geçerli bir email giriniz",
-	"sign_err_pass": "Lütfen aynı şifreyi girin",
+
 	"no": "Hayır",
 	"sended_desc": "Kahve falınız {fortuneTime} saat içinde gönderilecektir. Bildirimlerinizi takip edebilirsiniz.",
 	"@sended_desc": {
@@ -48,7 +47,15 @@
 			}
 		}
 	},
-	"sign_err_pass2": "Geçerli bir Parola girin.",
+	"sign_err_1": "E-posta adresiniz hatalı biçimlendirilmiş görünüyor.",
+	"sign_err_2": "Lütfen aynı şifreyi girin",
+	"sign_err_3": "Şifreniz yanlış.",
+	"sign_err_4": "Bu e-postaya sahip kullanıcı mevcut değil.",
+	"sign_err_5": "Bu e-postaya sahip kullanıcı devre dışı bırakıldı.",
+	"sign_err_6": "Çok fazla istek. Daha sonra tekrar deneyin.",
+	"sign_err_7": "Bu E-mail zaten kullanılmış.",
+	"sign_err_8": "Geçerli bir Parola girin.",
+	"sign_err_9": "Bir şeyler Yanlış Gitti.",
 	"yes": "Evet",
 	"sended_thx": "Mor kahve fincanını seçtiğiniz için teşekkür ederiz.",
 	"empty_inbox": "Gelen Kutusu Boş",

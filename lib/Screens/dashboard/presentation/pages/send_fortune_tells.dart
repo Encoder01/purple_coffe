@@ -16,6 +16,7 @@ import 'package:purple_coffe/config/routes/router.gr.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
 import 'package:purple_coffe/core/constants/firebase_constants.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
+import 'package:purple_coffe/helpers/show_dialog.dart';
 
 import '../../../../injection_container.dart';
 import '../../domain/repositories/dashobard_firestore_repository.dart';
@@ -39,7 +40,7 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
   final ImagePicker _picker = ImagePicker();
 
   Future<MemoryImage?> imagePicker({BuildContext? context, bool isMultiImage = false}) async {
-    ImageSource? source = await dialogCameraOrGallery(context!);
+    ImageSource? source = await dialogCameraOrGallery();
     if (source == null) {
       return null;
     }
@@ -50,7 +51,7 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
       final memoryImage = MemoryImage(asByte);
       return memoryImage;
     } catch (e) {
-      showSnackBar(e.toString());
+      busyDialog(e.toString(),true);
     }
     return null;
   }
@@ -249,7 +250,7 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                           if (kredi > 0) {
                             if (AppEnvironment.appEnv.readedDailyFortune! >=
                                 AppEnvironment.appEnv.dailyFortune!) {
-                              final bool isSendFortune = await busyDialog(context,
+                              final bool isSendFortune = await busyDialog(
                                   AppLocalizations.of(context)!.sended_err_busy, false);
                               if (isSendFortune) {
                                 sendFortune(userModel);
@@ -258,12 +259,11 @@ class _SendFortuneTellsState extends State<SendFortuneTells> {
                               sendFortune(userModel);
                             }
                           } else {
-                            busyDialog(context,
-                                AppLocalizations.of(context)!.sended_err_credit, true);
+                            busyDialog(
+                                AppLocalizations.of(context)!.sended_err_credit, true,);
                           }
                         } else {
-                          busyDialog(
-                              context, AppLocalizations.of(context)!.sended_err_img, true);
+                          busyDialog(AppLocalizations.of(context)!.sended_err_img, true);
                         }
                       });
                     },

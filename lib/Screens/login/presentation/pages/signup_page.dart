@@ -14,7 +14,7 @@ class SignUpPage extends StatelessWidget {
 
   late String inputLogin = "";
   late String inputPass = "";
-  late String inputPassConfirm;
+  late String inputPassConfirm='';
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class SignUpPage extends StatelessWidget {
                                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                       .hasMatch(inputLogin);
                                   if (emailValid) {
-                                    if (inputPass == inputPassConfirm) {
+                                    if (inputPass == inputPassConfirm && inputPass!='' && inputPassConfirm!='') {
                                       final loginDTO = LoginDTO(
                                           email: inputLogin,
                                           password: inputPass,
@@ -90,13 +90,13 @@ class SignUpPage extends StatelessWidget {
                                         Navigator.of(context).pop();
                                       });
                                     } else {
-                                      showSnackBar(
-                                        AppLocalizations.of(context)!.sign_err_pass,
+                                      busyDialog(
+                                        AppLocalizations.of(context)!.sign_err_2,true,
                                       );
                                     }
                                   } else {
-                                    showSnackBar(
-                                      AppLocalizations.of(context)!.sign_err_mail,
+                                    busyDialog(
+                                      AppLocalizations.of(context)!.sign_err_1,true,
                                     );
                                   }
                                 },

@@ -25,14 +25,14 @@ class IAuthenticationDatasourceImplementation
               email: user.user!.email ?? login.email,
               sex: "unknown",
               birthDate: "dd/mm/YY",
-              fTellId: [""],
-              availableCredit: [{'credit_count': 0, 'credit_id': '0'}],
+              fTellId: const [""],
+              availableCredit: const [{'credit_count': 0, 'credit_id': '0'}],
             ).toJson(),
           );
       final userData = await docUser.doc(user.user!.uid).get();
       return AppUserModel.fromJson(userData.data()!);
     } catch (e) {
-      showSnackBar(AuthError().handleError(e));
+      busyDialog(AuthError().handleError(e),true);
       throw Exception(e.toString());
     }
   }
@@ -45,7 +45,7 @@ class IAuthenticationDatasourceImplementation
       final userData = await docUser.doc(user.user!.uid).get();
       return AppUserModel.fromJson(userData.data()!);
     } catch (e) {
-     showSnackBar(AuthError().handleError(e));
+      busyDialog(AuthError().handleError(e),true);
       throw Exception(e.toString());
     }
   }
@@ -59,7 +59,7 @@ class IAuthenticationDatasourceImplementation
         return AppUserModel.fromJson(userData.data()!);
       }
     } catch (e) {
-      showSnackBar(AuthError().handleError(e));
+      busyDialog(AuthError().handleError(e),true);
       throw Exception(e.toString());
     }
     return null;
@@ -85,14 +85,14 @@ class IAuthenticationDatasourceImplementation
           email: user.user!.email!,
           sex: "unknown",
           birthDate: "dd/mm/YY",
-          fTellId: [""],
-          availableCredit:[ {'credit_count': 0, 'credit_id': '0'}]
+          fTellId: const [""],
+          availableCredit:const [ {'credit_count': 0, 'credit_id': '0'}]
         ).toJson(),
       );
       final userData = await docUser.doc(user.user!.uid).get();
       return AppUserModel.fromJson(userData.data()!);
     } catch (e) {
-      showSnackBar(AuthError().handleError(e));
+      busyDialog(AuthError().handleError(e),true);
       throw Exception(e.toString());
     }
   }
@@ -103,7 +103,7 @@ class IAuthenticationDatasourceImplementation
       await _firebaseAuth.signOut();
       return true;
     } catch (e) {
-      showSnackBar(AuthError().handleError(e));
+      busyDialog(AuthError().handleError(e),true);
       throw Exception(e);
     }
   }
@@ -114,7 +114,8 @@ class IAuthenticationDatasourceImplementation
       await _firebaseAuth.sendPasswordResetEmail(email: mail,);
       return true;
     } catch (e) {
-      showSnackBar(AuthError().handleError(e));
+      busyDialog(AuthError().handleError(e), true);
+
       throw Exception(e);
     }
   }

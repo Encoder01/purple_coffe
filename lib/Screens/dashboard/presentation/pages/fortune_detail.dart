@@ -8,9 +8,11 @@ import 'package:purple_coffe/Screens/dashboard/domain/entities/FortuneModel.dart
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/fortune_bloc.dart';
 import 'package:purple_coffe/Screens/dashboard/presentation/widgets/elevated_button.dart';
 import 'package:purple_coffe/config/env/env.dart';
-import 'package:purple_coffe/config/routes/router.gr.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:purple_coffe/helpers/show_dialog.dart';
+
+import '../../../../core/constants/functions.dart';
 
 class FortuneDetail extends StatelessWidget {
   FortuneDetail(
@@ -43,8 +45,7 @@ class FortuneDetail extends StatelessWidget {
                           onPressed: () {
                             context.router.pop();
                           },
-                          icon: const Icon(Icons.minimize,
-                              color: Colors.white, size: 32),
+                          icon: const Icon(Icons.minimize, color: Colors.white, size: 32),
                         ),
                         const SizedBox(
                           height: 10,
@@ -52,10 +53,9 @@ class FortuneDetail extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                             Text(
+                            Text(
                               AppLocalizations.of(context)!.fortune_font,
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 21),
+                              style: TextStyle(color: Colors.white, fontSize: 21),
                             ),
                             Row(
                               children: [
@@ -104,9 +104,7 @@ class FortuneDetail extends StatelessWidget {
               child: Text(
                 AppLocalizations.of(context)!.fortune_title,
                 style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold,
-                    color: Themes.mainColor),
+                    fontSize: 21, fontWeight: FontWeight.bold, color: Themes.mainColor),
               ),
             ),
           ),
@@ -118,23 +116,27 @@ class FortuneDetail extends StatelessWidget {
               },
               icon: const Icon(Ionicons.text)),
           IconButton(
-              onPressed: () {
-                BlocProvider.of<FortuneBloc>(context).add(
-                  DeleteFortunes(
-                    FortuneModel(
-                      fortuneId: fortuneTells.fortuneId!,
-                      userId: fortuneTells.userId!,
-                      flatCup: fortuneTells.flatCup!,
-                      inCup: fortuneTells.inCup!,
-                      fortuneNotif: fortuneTells.fortuneNotif!,
-                      fortune_quest: {"answer": "null", "quest": "soruText"},
-                      createDate: fortuneTells.createDate!,
-                      fortuneComment: fortuneTells.fortuneComment!,
-                      isDone: fortuneTells.isDone!,
-                    ),
-                  ),
-                );
-                context.popRoute();
+              onPressed: () async {
+                await busyDialog(AppLocalizations.of(context)!.fortune_delete, false).then((value) {
+                  if(value==true){
+                    BlocProvider.of<FortuneBloc>(context).add(
+                      DeleteFortunes(
+                        FortuneModel(
+                          fortuneId: fortuneTells.fortuneId!,
+                          userId: fortuneTells.userId!,
+                          flatCup: fortuneTells.flatCup!,
+                          inCup: fortuneTells.inCup!,
+                          fortuneNotif: fortuneTells.fortuneNotif!,
+                          fortune_quest: {"answer": "null", "quest": "soruText"},
+                          createDate: fortuneTells.createDate!,
+                          fortuneComment: fortuneTells.fortuneComment!,
+                          isDone: fortuneTells.isDone!,
+                        ),
+                      ),
+                    );
+                    context.popRoute();
+                  }
+                });
               },
               icon: const Icon(Ionicons.trash))
         ],
@@ -151,25 +153,26 @@ class FortuneDetail extends StatelessWidget {
                 tileMode: TileMode.repeated),
           ),
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              ValueListenableBuilder(
-                  valueListenable: fontsizeValue,
-                  builder: (context, double value, child) {
-                    return AutoSizeText(
-                      fortuneTells.fortuneComment!,
-                      minFontSize: 15,
-                      textAlign: TextAlign.start,
-                      style:
-                          TextStyle(fontSize: value, color: Themes.mainColor),
-                    );
-                  }),
-              const SizedBox(
-                height: 15,
-              ),
-              questWidget(context),
-              answerWidget(context)
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                ValueListenableBuilder(
+                    valueListenable: fontsizeValue,
+                    builder: (context, double value, child) {
+                      return AutoSizeText(
+                        fortuneTells.fortuneComment!,
+                        minFontSize: 15,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(fontSize: value, color: Themes.mainColor),
+                      );
+                    }),
+                const SizedBox(
+                  height: 15,
+                ),
+                questWidget(context),
+                answerWidget(context)
+              ],
+            ),
           ),
         ),
       ),
@@ -188,11 +191,10 @@ class FortuneDetail extends StatelessWidget {
             onChanged: (val) {
               soruText = val;
             },
-            readOnly:
-                !(fortuneTells.fortune_quest!["quest"].toString() == "null"),
+            readOnly: !(fortuneTells.fortune_quest!["quest"].toString() == "null"),
             decoration: InputDecoration(
                 hintText: fortuneTells.fortune_quest!["quest"] == "null"
-                    ?  AppLocalizations.of(context)!.fortune_ask_desc
+                    ? AppLocalizations.of(context)!.fortune_ask_desc
                     : fortuneTells.fortune_quest!["quest"].toString(),
                 hintStyle: TextStyle(color: Themes.mainColor),
                 errorMaxLines: 10,
@@ -232,11 +234,10 @@ class FortuneDetail extends StatelessWidget {
                 valueListenable: fontsizeValue,
                 builder: (context, double value, child) {
                   return AutoSizeText(
-                    "${ AppLocalizations.of(context)!.fortune_ask}: ",
+                    "${AppLocalizations.of(context)!.fortune_ask}: ",
                     minFontSize: 12,
                     textAlign: TextAlign.start,
-                    style:
-                        TextStyle(fontSize: value - 6, color: Themes.mainColor),
+                    style: TextStyle(fontSize: value - 6, color: Themes.mainColor),
                   );
                 }),
             ValueListenableBuilder(
@@ -278,8 +279,7 @@ class FortuneDetail extends StatelessWidget {
                     "${AppLocalizations.of(context)!.fortune_answer}: ",
                     minFontSize: 12,
                     textAlign: TextAlign.start,
-                    style:
-                        TextStyle(fontSize: value - 6, color: Themes.mainColor),
+                    style: TextStyle(fontSize: value - 6, color: Themes.mainColor),
                   );
                 }),
             ValueListenableBuilder(
@@ -299,7 +299,7 @@ class FortuneDetail extends StatelessWidget {
       );
     } else {
       return ElevatedButtonWidget(
-        text:  AppLocalizations.of(context)!.fortune_ask_button,
+        text: AppLocalizations.of(context)!.fortune_ask_button,
         onPress: () {
           BlocProvider.of<FortuneBloc>(context).add(
             SetFortunes(

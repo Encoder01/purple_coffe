@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:one_context/one_context.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart' as prv;
 import 'package:purple_coffe/Screens/dashboard/presentation/manager/fortune_bloc.dart';
@@ -36,7 +37,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await di.init();
-  runApp(const SplashScreen());
+  OnePlatform.app = () => const SplashScreen();
 }
 
 final _appRouter = AppRouter();
@@ -157,7 +158,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp.router(
           theme: Themes.lightTheme,
           debugShowCheckedModeBanner: false,
-          scaffoldMessengerKey: kSnackbarKey,
+          builder: OneContext().builder,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           routeInformationParser: _appRouter.defaultRouteParser(includePrefixMatches: true),

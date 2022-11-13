@@ -37,8 +37,7 @@
 	"sign_password": "Password",
 	"title_path": "assets/logo/title_en.png",
 	"sign_signup": "Sign Up",
-	"sign_err_mail": "Please enter a valid email",
-	"sign_err_pass": "Please enter the same password",
+
 	"no": "No",
 	"sended_desc": "We got your order! Your coffe reading will be sent to you within {fortuneTime} hours Thank You!",
 	"@sended_desc": {
@@ -48,7 +47,15 @@
 			}
 		}
 	},
-	"sign_err_pass2": "Enter a Valid Password.",
+	"sign_err_1": "Your email address appears to be malformed.",
+	"sign_err_2": "Please enter the same password",
+	"sign_err_3": "Your password is wrong.",
+	"sign_err_4": "User with this email doesn't exist.",
+	"sign_err_5": "User with this email has been disabled.",
+	"sign_err_6": "Too many requests. Try again later.",
+	"sign_err_7": "Email already used.",
+	"sign_err_8": "Enter a Valid Password.",
+	"sign_err_9": "Something Has Gone Wrong.",
 	"yes": "Yes",
 	"sended_thx": "Thank you for choosing the purple coffe cup.",
 	"empty_inbox": "Inbox Empty",

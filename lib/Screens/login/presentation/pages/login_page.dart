@@ -10,6 +10,7 @@ import 'package:purple_coffe/config/routes/router.gr.dart';
 import 'package:purple_coffe/config/themes/themes.dart';
 import 'package:purple_coffe/core/constants/functions.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:purple_coffe/helpers/show_dialog.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -92,13 +93,12 @@ class _LoginPageState extends State<LoginPage> {
                     final loginDTO = LoginDTO(
                         email: inputLogin!, password: inputPass, emailLink: inputPass);
                     print(loginDTO);
-                    BlocProvider.of<LoginBloc>(context)
-                        .add(LogInWithEmailPassword(loginDTO));
+                    BlocProvider.of<LoginBloc>(context).add(LogInWithEmailPassword(loginDTO));
                   } else {
-                    showSnackBar(AppLocalizations.of(context)!.sign_err_pass2);
+                    busyDialog(AppLocalizations.of(context)!.sign_err_8, true);
                   }
                 } else {
-                  showSnackBar( AppLocalizations.of(context)!.sign_err_mail);
+                  busyDialog(AppLocalizations.of(context)!.sign_err_1, true);
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -118,11 +118,11 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   final bool emailValid = RegExp(
                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(inputLogin!);
+                      .hasMatch(inputLogin ?? '');
                   if (emailValid) {
                     BlocProvider.of<LoginBloc>(context).add(ResPassMail(inputLogin!));
                   } else {
-                    showSnackBar(AppLocalizations.of(context)!.sign_err_mail);
+                    busyDialog(AppLocalizations.of(context)!.sign_err_1, true);
                   }
                 },
                 child: Text(

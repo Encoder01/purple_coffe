@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "828924547243-r3br8b5474d6s77uhnuma2ql1vlqul5v.apps.googleusercontent.com",
+              "client_id": "828924547243-m2807hushhf2n8efvevjkgv1vpjvgtvb.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.ttan.purplecoffe.purpleCoffe"
+                "bundle_id": "com.ttan.purplecoffe.purpleCoffeMaster"
               }
             }
           ]
@@ -51,11 +51,19 @@
       },
       "oauth_client": [
         {
-          "client_id": "828924547243-185e879lrm8oh6lmag37io2oefjq5cnj.apps.googleusercontent.com",
+          "client_id": "828924547243-cnbgd6kka38ok929libn5h7qeih4vdv3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.ttan.purplecoffe.purple_coffe",
-            "certificate_hash": "85902c6e90198c0674d9b8fc64637e5f66cbb5ac"
+            "certificate_hash": "5600cc0e097927e1ac51c616535aeea94989d08d"
+          }
+        },
+        {
+          "client_id": "828924547243-f443t9kft4kscnegjki36k4irqc62lrs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ttan.purplecoffe.purple_coffe",
+            "certificate_hash": "8e6708df191dab3f6201031762424aa998fd20c8"
           }
         },
         {
@@ -76,10 +84,10 @@
               "client_type": 3
             },
             {
-              "client_id": "828924547243-r3br8b5474d6s77uhnuma2ql1vlqul5v.apps.googleusercontent.com",
+              "client_id": "828924547243-m2807hushhf2n8efvevjkgv1vpjvgtvb.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.ttan.purplecoffe.purpleCoffe"
+                "bundle_id": "com.ttan.purplecoffe.purpleCoffeMaster"
               }
             }
           ]
